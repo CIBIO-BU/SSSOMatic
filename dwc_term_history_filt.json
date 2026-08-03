@@ -1,0 +1,1194 @@
+{
+  "type": {
+    "value": "StillImage",
+    "description": "The nature or genre of the resource."
+  },
+  "modified": {
+    "value": "1963-03-08T14:07-06:00 (8 Mar 1963 at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "Date on which the resource was changed."
+  },
+  "language": {
+    "value": "",
+    "description": "A language of the resource."
+  },
+  "license": {
+    "value": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    "description": "A legal document giving official permission to do something with the resource."
+  },
+  "rightsHolder": {
+    "value": "The Regents of the University of California",
+    "description": "A person or organization owning or managing rights over the resource."
+  },
+  "accessRights": {
+    "value": "not-for-profit use only (string literal example)",
+    "description": "Information about who can access the resource or an indication of its security status."
+  },
+  "bibliographicCitation": {
+    "value": "Museum of Vertebrate Zoology, UC Berkeley. MVZ Mammal Collection (Arctos). Record ID: http://arctos.database.museum/guid/MVZ:Mamm:165861?seid=101356. Source: http://ipt.vertnet.org:8080/ipt/resource.do?r=mvz_mammal. (Occurrence example)",
+    "description": "A bibliographic reference for the resource."
+  },
+  "references": {
+    "value": "http://arctos.database.museum/guid/MVZ:Mamm:165861 (MaterialEntity example)",
+    "description": "A related resource that is referenced, cited, or otherwise pointed to by the described resource."
+  },
+  "feedbackURL": {
+    "value": "https://example.com/new?title=New+issue&body=This+comment+is+about+CAN12345",
+    "description": "A uniform resource locator (URL) that points to a webpage on which a form may be submitted to gather feedback about the record."
+  },
+  "institutionID": {
+    "value": "https://ror.org/015hz7p22",
+    "description": "An identifier for an organization."
+  },
+  "collectionID": {
+    "value": "https://scientific-collections.gbif.org/collection/fbd3ed74-5a21-4e01-b86a-33d36f032d9c",
+    "description": "An identifier for a collection."
+  },
+  "datasetID": {
+    "value": "b15d4952-7d20-46f1-8a3e-556a512b04c5",
+    "description": "An identifier for the set of data. May be a global unique identifier or an identifier specific to a collection or institution."
+  },
+  "institutionCode": {
+    "value": "MVZ",
+    "description": "A name (or acronym) in use by an institution having custody of a resource."
+  },
+  "collectionCode": {
+    "value": "Mammals",
+    "description": "A name, acronym, coden, or initialism identifying a collection."
+  },
+  "ownerInstitutionCode": {
+    "value": "NPS",
+    "description": "A name (or acronym) in use by an institution having ownership of a resource."
+  },
+  "datasetName": {
+    "value": "Grinnell Resurvey Mammals",
+    "description": "A name of a source dataset."
+  },
+  "basisOfRecord": {
+    "value": "MaterialEntity",
+    "description": "The specific nature of the data record."
+  },
+  "informationWithheld": {
+    "value": "",
+    "description": "Additional information that exists about a resource, but that is not shared publicly. Suggests that alternative data of higher quality may be available on request."
+  },
+  "dataGeneralizations": {
+    "value": "",
+    "description": "Actions taken to make the shared data less specific or complete than in its original form. Suggests that alternative data of higher quality may be available on request."
+  },
+  "dynamicProperties": {
+    "value": "{\"heightInMeters\":1.5}",
+    "description": "A list of additional measurements, facts, characteristics, or assertions about the record. Meant to provide a mechanism for structured content."
+  },
+  "Agent": {
+    "value": "a person",
+    "description": "A resource that acts or has the power to act."
+  },
+  "agentID": {
+    "value": "",
+    "description": "An identifier for a dcterms:Agent."
+  },
+  "agentType": {
+    "value": "person",
+    "description": "A category that best matches the nature of a dcterms:Agent."
+  },
+  "agentRoleOrder": {
+    "value": "1",
+    "description": "A numerical position of an AgentRole in a set of AgentRoles."
+  },
+  "agentRemarks": {
+    "value": "",
+    "description": "Comments or notes about a dcterms:Agent."
+  },
+  "Assertion": {
+    "value": "the weight of a dwc:Organism in grams",
+    "description": "A statement about an rdfs:Resource (http://www.w3.org/2000/01/rdf-schema#Resource)."
+  },
+  "assertionID": {
+    "value": "",
+    "description": "An identifier for a dwc:Assertion."
+  },
+  "assertionType": {
+    "value": "",
+    "description": "A category that best matches the nature of a dwc:Assertion."
+  },
+  "verbatimAssertionType": {
+    "value": "water_temp",
+    "description": "A string representing the type of dwc:Assertion as it appeared in an original record."
+  },
+  "assertionValue": {
+    "value": "http://vocab.nerc.ac.uk/collection/L22/current/TOOL0960/",
+    "description": "An asserted value."
+  },
+  "assertionUnit": {
+    "value": "http://www.ontology-of-units-of-measure.org/resource/om-2/metre",
+    "description": "A unit associated with the value in dwc:assertionValue."
+  },
+  "assertionError": {
+    "value": "0.01",
+    "description": "A description of the potential error associated with a dwc:assertionValue."
+  },
+  "assertionBy": {
+    "value": "",
+    "description": "An IRI identifying a dcterms:Agent responsible for making a dwc:Assertion."
+  },
+  "assertionMadeDate": {
+    "value": "1963-03-08T14:07-06:00 (8 Mar 1963 at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "A date on which a dwc:Assertion was created."
+  },
+  "assertionEffectiveDate": {
+    "value": "1963-03-08T14:07-06:00 (8 Mar 1963 at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "A date on which a state or measurement of a dwc:Assertion was deemed to first be in effect."
+  },
+  "assertionProtocols": {
+    "value": "",
+    "description": "Names of, references to, or descriptions of dwc:Protocols used in making a dwc:Assertion."
+  },
+  "assertionReferences": {
+    "value": "",
+    "description": "A list (concatenated and separated) of dcterms:BibliographicResources associated with a dwc:Assertion."
+  },
+  "assertionRemarks": {
+    "value": "tip of tail missing",
+    "description": "Comments or notes about a dwc:Assertion."
+  },
+  "BibliographicResource": {
+    "value": "",
+    "description": "A book, article, or other documentary resource."
+  },
+  "referenceID": {
+    "value": "",
+    "description": "An identifier for a dcterms:BibliographicResource."
+  },
+  "referenceType": {
+    "value": "book, bookSection, journalArticle, thesis",
+    "description": "A category that best matches the nature of a dcterms:BibliographicResource."
+  },
+  "referenceRemarks": {
+    "value": "",
+    "description": "Comments or notes about a dcterms:BibliographicResource."
+  },
+  "Event": {
+    "value": "a material collecting event",
+    "description": "An action, process, or set of circumstances occurring at a dcterms:Location during a period of time."
+  },
+  "eventID": {
+    "value": "INBO:VIS:Ev:00009375",
+    "description": "An identifier for the set of information associated with a dwc:Event (something that occurs at a place and time). May be a global unique identifier or an identifier specific to the data set."
+  },
+  "parentEventID": {
+    "value": "A1 (parentEventID to identify the main Whittaker Plot in nested samples, each with its own eventID - A1:1, A1:2).",
+    "description": "An identifier for a broader dwc:Event that contains this and potentially other dwc:Events."
+  },
+  "eventCategory": {
+    "value": "",
+    "description": "A broad category that best matches the nature of a dwc:Event."
+  },
+  "eventType": {
+    "value": "",
+    "description": "A narrow category that best matches the nature of a dwc:Event."
+  },
+  "fieldNumber": {
+    "value": "",
+    "description": "An identifier given to a dwc:Event in the field."
+  },
+  "eventDate": {
+    "value": "1963-03-08T14:07-06:00 (8 Mar 1963 at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "A date-time or time interval during which a dwc:Event occurred."
+  },
+  "eventTime": {
+    "value": "14:07-06:00 (at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "The time or interval during which a dwc:Event occurred."
+  },
+  "startDayOfYear": {
+    "value": "1 (1 January)",
+    "description": "The earliest integer day of the year on which a dwc:Event occurred."
+  },
+  "endDayOfYear": {
+    "value": "1 (1 January)",
+    "description": "The latest integer day of the year on which a dwc:Event occurred."
+  },
+  "year": {
+    "value": "1160",
+    "description": "The four-digit year in which the dwc:Event occurred, according to the Common Era Calendar."
+  },
+  "month": {
+    "value": "1 (January)",
+    "description": "The integer month in which the dwc:Event occurred."
+  },
+  "day": {
+    "value": "9",
+    "description": "The integer day of the month on which the dwc:Event occurred."
+  },
+  "verbatimEventDate": {
+    "value": "spring 1910",
+    "description": "The verbatim original representation of the date and time information for a dwc:Event."
+  },
+  "habitat": {
+    "value": "",
+    "description": "A category or description of the habitat in which the dwc:Event occurred."
+  },
+  "sampledSubstrateCategory": {
+    "value": "",
+    "description": "A category or type of substrate sampled during a dwc:Event."
+  },
+  "sampledSubstrateLayer": {
+    "value": "",
+    "description": "An IRI identifying a substrate layer sampled during a dwc:Event."
+  },
+  "samplingProtocol": {
+    "value": "",
+    "description": "The methods or protocols used during a dwc:Event, denoted by an IRI."
+  },
+  "sampleSizeValue": {
+    "value": "5 (sampleSizeValue) with metre (sampleSizeUnit)",
+    "description": "A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling dwc:Event."
+  },
+  "sampleSizeUnit": {
+    "value": "",
+    "description": "The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling dwc:Event."
+  },
+  "samplingEffort": {
+    "value": "40 trap-nights",
+    "description": "The amount of effort expended during a dwc:Event."
+  },
+  "fieldNotes": {
+    "value": "",
+    "description": "One of a) an indicator of the existence of, b) a reference to (publication, URI), or c) the text of notes taken in the field about the dwc:Event."
+  },
+  "eventRemarks": {
+    "value": "After the recent rains the river is nearly at flood stage.",
+    "description": "Comments or notes about the dwc:Event."
+  },
+  "Location": {
+    "value": "the municipality of San Carlos de Bariloche, R\u00edo Negro, Argentina",
+    "description": "A spatial region or named place."
+  },
+  "locationID": {
+    "value": "https://opencontext.org/subjects/768A875F-E205-4D0B-DE55-BAB7598D0FD1",
+    "description": "An identifier for a dcterms:Location."
+  },
+  "siteNumber": {
+    "value": "",
+    "description": "An identifier for a named site."
+  },
+  "higherGeographyID": {
+    "value": "http://vocab.getty.edu/tgn/1002002 (Ant\u00e1rtida e Islas del Atl\u00e1ntico Sur, Territorio Nacional de la Tierra del Fuego, Argentina).",
+    "description": "An identifier for the geographic region within which the dcterms:Location occurred."
+  },
+  "higherGeography": {
+    "value": "North Atlantic Ocean",
+    "description": "A list (concatenated and separated) of geographic names less specific than the information captured in the dwc:locality term."
+  },
+  "continent": {
+    "value": "Africa",
+    "description": "The name of the continent in which the dcterms:Location occurs."
+  },
+  "waterBody": {
+    "value": "Indian Ocean",
+    "description": "The name of the water body in which the dcterms:Location occurs."
+  },
+  "islandGroup": {
+    "value": "Alexander Archipelago",
+    "description": "The name of the island group in which the dcterms:Location occurs."
+  },
+  "island": {
+    "value": "Nosy Be",
+    "description": "The name of the island on or near which the dcterms:Location occurs."
+  },
+  "country": {
+    "value": "Denmark",
+    "description": "The name of the country or major administrative unit in which the dcterms:Location occurs."
+  },
+  "countryCode": {
+    "value": "AR",
+    "description": "The standard code for the country in which the dcterms:Location occurs."
+  },
+  "stateProvince": {
+    "value": "Montana",
+    "description": "The name of the next smaller administrative region than country (state, province, canton, department, region, etc.) in which the dcterms:Location occurs."
+  },
+  "county": {
+    "value": "Missoula",
+    "description": "The full, unabbreviated name of the next smaller administrative region than stateProvince (county, shire, department, etc.) in which the dcterms:Location occurs."
+  },
+  "municipality": {
+    "value": "Holzminden",
+    "description": "The full, unabbreviated name of the next smaller administrative region than county (city, municipality, etc.) in which the dcterms:Location occurs. Do not use this term for a nearby named place that does not contain the actual dcterms:Location."
+  },
+  "locality": {
+    "value": "Bariloche, 25 km NNE via Ruta Nacional 40 (=Ruta 237)",
+    "description": "The specific description of the place."
+  },
+  "verbatimLocality": {
+    "value": "25 km NNE Bariloche por R. Nac. 237",
+    "description": "An original textual description of a dcterms:Location."
+  },
+  "minimumElevationInMeters": {
+    "value": "-100",
+    "description": "The least elevation within a range of elevations, measured relative to the vertical reference surface indicated by the value of dwc:verticalDatum."
+  },
+  "maximumElevationInMeters": {
+    "value": "-205",
+    "description": "The greatest elevation within a range of elevations, measured relative to the vertical reference surface indicated by the value of dwc:verticalDatum."
+  },
+  "verbatimElevation": {
+    "value": "100-200 m",
+    "description": "An original description of the elevation of a dcterms:Location."
+  },
+  "verticalDatum": {
+    "value": "",
+    "description": "The vertical datum used as the reference upon which the values in the elevation terms are based."
+  },
+  "minimumDepthInMeters": {
+    "value": "0",
+    "description": "The least depth within a range of depths, measured relative to the vertical reference surface indicated by the value of dwc:verticalDatum."
+  },
+  "maximumDepthInMeters": {
+    "value": "0",
+    "description": "The greatest depth within a range of depths, measured relative to the vertical reference surface indicated by the value of dwc:verticalDatum."
+  },
+  "verbatimDepth": {
+    "value": "100-200 m",
+    "description": "The original description of the depth below the local surface."
+  },
+  "minimumDistanceAboveSurfaceInMeters": {
+    "value": "-1.5 (below the surface)",
+    "description": "The lesser distance in a range of distance from a reference surface in the vertical direction, in meters. Use positive values for locations above the surface, negative values for locations below. If depth measures are given, the reference surface is the location given by the depth, otherwise the reference surface is the location given by the elevation."
+  },
+  "maximumDistanceAboveSurfaceInMeters": {
+    "value": "-1.5 (below the surface)",
+    "description": "The greater distance in a range of distance from a reference surface in the vertical direction, in meters. Use positive values for locations above the surface, negative values for locations below. If depth measures are given, the reference surface is the location given by the depth, otherwise the reference surface is the location given by the elevation."
+  },
+  "locationAccordingTo": {
+    "value": "",
+    "description": "Information about the source of this dcterms:Location information. Could be a publication (gazetteer), institution, or team of individuals."
+  },
+  "locationRemarks": {
+    "value": "under water since 2005",
+    "description": "Comments or notes about the dcterms:Location."
+  },
+  "preferredSpatialRepresentation": {
+    "value": "",
+    "description": "An indication of which spatial representation best represents the dcterms:Location."
+  },
+  "decimalLatitude": {
+    "value": "-41.0983423",
+    "description": "A geographic latitude (in decimal degrees, using the spatial reference system given in dwc:geodeticDatum) of a dcterms:Location."
+  },
+  "decimalLongitude": {
+    "value": "-121.1761111",
+    "description": "A geographic longitude (in decimal degrees, using the spatial reference system given in dwc:geodeticDatum) of a dcterms:Location."
+  },
+  "geodeticDatum": {
+    "value": "",
+    "description": "The ellipsoid, geodetic datum, or spatial reference system (SRS) upon which the geographic coordinates given in dwc:decimalLatitude and dwc:decimalLongitude are based."
+  },
+  "coordinateUncertaintyInMeters": {
+    "value": "30 (reasonable lower limit on or after 2000-05-01 of a GPS reading under good conditions if the actual precision was not recorded at the time)",
+    "description": "A horizontal distance (in meters) from a given dwc:decimalLatitude and dwc:decimalLongitude describing the smallest circle containing the whole of the dcterms:Location. Zero is not a valid value for this term."
+  },
+  "coordinatePrecision": {
+    "value": "0.00001 (normal GPS limit for decimal degrees)",
+    "description": "A decimal representation of the precision of the coordinates given in the dwc:decimalLatitude and dwc:decimalLongitude."
+  },
+  "pointRadiusSpatialFit": {
+    "value": "0",
+    "description": "A ratio of the area of a point-radius (dwc:decimalLatitude, dwc:decimalLongitude, dwc:coordinateUncertaintyInMeters) to the area of a true (original, or most specific) spatial representation of a dcterms:Location."
+  },
+  "verbatimCoordinates": {
+    "value": "41 05 54S 121 05 34W",
+    "description": "Verbatim original spatial coordinates of a dcterms:Location."
+  },
+  "verbatimLatitude": {
+    "value": "41 05 54.03S",
+    "description": "A verbatim original latitude of a dcterms:Location."
+  },
+  "verbatimLongitude": {
+    "value": "121d 10' 34\" W",
+    "description": "A verbatim original longitude of a dcterms:Location."
+  },
+  "verbatimCoordinateSystem": {
+    "value": "",
+    "description": "A coordinate format for dwc:verbatimLatitude and dwc:verbatimLongitude or dwc:verbatimCoordinates."
+  },
+  "verbatimSRS": {
+    "value": "",
+    "description": "The ellipsoid, geodetic datum, or spatial reference system (SRS) upon which coordinates given in dwc:verbatimLatitude and dwc:verbatimLongitude, or dwc:verbatimCoordinates are based."
+  },
+  "footprintWKT": {
+    "value": "",
+    "description": "A Well-Known Text (WKT) representation of the shape (footprint, geometry) that defines the dcterms:Location. A dcterms:Location may have both a point-radius representation (see dwc:decimalLatitude) and a footprint representation, and they may differ from each other."
+  },
+  "footprintSRS": {
+    "value": "",
+    "description": "The ellipsoid, geodetic datum, or spatial reference system (SRS) upon which the geometry given in dwc:footprintWKT is based."
+  },
+  "footprintSpatialFit": {
+    "value": "0",
+    "description": "A ratio of the area of a footprint (dwc:footprintWKT) to the area of a true (original, or most specific) spatial representation of a dcterms:Location."
+  },
+  "georeferencedBy": {
+    "value": "",
+    "description": "An IRI identifying a dcterms:Agent responsible for providing a georeference."
+  },
+  "georeferencedDate": {
+    "value": "1963-03-08T14:07-06:00 (8 Mar 1963 at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "The date on which the dcterms:Location was georeferenced."
+  },
+  "georeferenceProtocol": {
+    "value": "",
+    "description": "A description or reference to a dwc:Protocol used to determine a spatial footprint, coordinates, and uncertainties."
+  },
+  "georeferenceSources": {
+    "value": "",
+    "description": "An IRI for a map, gazetteer, or other resource used to georeference a dcterms:Location."
+  },
+  "georeferenceRemarks": {
+    "value": "Assumed distance by road (Hwy. 101)",
+    "description": "Comments or notes about the spatial description determination, explaining assumptions made in addition or opposition to the those formalized in the method referred to in dwc:georeferenceProtocol."
+  },
+  "GeologicalContext": {
+    "value": "a particular lithostratigraphic layer",
+    "description": "A set of geological designations, such as stratigraphy, that qualifies a dcterms:Location or source of a dwc:MaterialEntity."
+  },
+  "geologicalContextID": {
+    "value": "https://opencontext.org/subjects/e54377f7-4452-4315-b676-40679b10c4d9",
+    "description": "An identifier for the set of information associated with a dwc:GeologicalContext (the location within a geological context, such as stratigraphy). May be a global unique identifier or an identifier specific to the data set."
+  },
+  "earliestEonOrLowestEonothem": {
+    "value": "Phanerozoic",
+    "description": "The full name of the earliest possible geochronologic eon or lowest chronostratigraphic eonothem or the informal name attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "latestEonOrHighestEonothem": {
+    "value": "Phanerozoic",
+    "description": "The full name of the latest possible geochronologic eon or highest chronostratigraphic eonothem or the informal name attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "earliestEraOrLowestErathem": {
+    "value": "Cenozoic",
+    "description": "The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "latestEraOrHighestErathem": {
+    "value": "Cenozoic",
+    "description": "The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "earliestPeriodOrLowestSystem": {
+    "value": "Neogene",
+    "description": "The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "latestPeriodOrHighestSystem": {
+    "value": "Neogene",
+    "description": "The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "earliestEpochOrLowestSeries": {
+    "value": "Holocene",
+    "description": "The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "latestEpochOrHighestSeries": {
+    "value": "Holocene",
+    "description": "The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "earliestAgeOrLowestStage": {
+    "value": "Atlantic",
+    "description": "The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "latestAgeOrHighestStage": {
+    "value": "Atlantic",
+    "description": "The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "lowestBiostratigraphicZone": {
+    "value": "Maastrichtian",
+    "description": "The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "highestBiostratigraphicZone": {
+    "value": "Blancan",
+    "description": "The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the dwc:MaterialEntity was collected."
+  },
+  "lithostratigraphicTerms": {
+    "value": "Pleistocene-Weichselien",
+    "description": "The combination of all lithostratigraphic names for the rock from which the dwc:MaterialEntity was collected."
+  },
+  "group": {
+    "value": "Bathurst",
+    "description": "The full name of the lithostratigraphic group from which the dwc:MaterialEntity was collected."
+  },
+  "formation": {
+    "value": "Notch Peak Formation",
+    "description": "The full name of the lithostratigraphic formation from which the dwc:MaterialEntity was collected."
+  },
+  "member": {
+    "value": "Lava Dam Member",
+    "description": "The full name of the lithostratigraphic member from which the dwc:MaterialEntity was collected."
+  },
+  "bed": {
+    "value": "Harlem coal",
+    "description": "The full name of the lithostratigraphic bed from which the dwc:MaterialEntity was collected."
+  },
+  "Identification": {
+    "value": "a subspecies determination of an organism",
+    "description": "A classification of a resource according to a classification scheme."
+  },
+  "identificationID": {
+    "value": "9992",
+    "description": "An identifier for a dwc:Identification."
+  },
+  "identificationType": {
+    "value": "",
+    "description": "A category that best matches the nature of a dwc:Identification."
+  },
+  "verbatimIdentification": {
+    "value": "Peromyscus sp.",
+    "description": "A string representing the taxonomic identification as it appeared in the original record."
+  },
+  "isAcceptedIdentification": {
+    "value": "true",
+    "description": "An indicator that a dwc:Identification of a dwc:Organism is a currently an accepted or preferred one."
+  },
+  "taxonFormula": {
+    "value": "",
+    "description": "A pattern to use to construct a dwc:Identification from dwc:Taxon names and identification qualifiers."
+  },
+  "identificationQualifier": {
+    "value": "",
+    "description": "A controlled value to express the determiner's doubts about the dwc:Identification."
+  },
+  "typeStatus": {
+    "value": "",
+    "description": "A nomenclatural type (type status, typified scientific name, publication) applied to the subject."
+  },
+  "identifiedBy": {
+    "value": "",
+    "description": "An IRI identifying a dcterms:Agent responsible for making a dwc:Identification."
+  },
+  "identifiedByID": {
+    "value": "https://orcid.org/0000-0002-1825-0097 (for an individual)",
+    "description": "An identifier for a dcterms:Agent responsible for making a dwc:Identification."
+  },
+  "dateIdentified": {
+    "value": "1963-03-08T14:07-06:00 (8 Mar 1963 at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "The date on which the subject was determined as representing the dwc:Taxon."
+  },
+  "identificationReferences": {
+    "value": "Aves del Noroeste Patagonico. Christie et al. 2004.",
+    "description": "A list (concatenated and separated) of dcterms:BibliographicResources used in a dwc:Identification."
+  },
+  "identificationVerificationStatus": {
+    "value": "",
+    "description": "A categorical indicator of the extent to which a taxonomic determination has been verified to be correct."
+  },
+  "identificationRemarks": {
+    "value": "Distinguished between Anthus correndera and Anthus hellmayri based on the comparative lengths of the u\u00f1as.",
+    "description": "Comments or notes about the dwc:Identification."
+  },
+  "MaterialEntity": {
+    "value": "the entire contents of a trawl",
+    "description": "An entity that can be identified, exists for some period of time, and consists in whole or in part of physical matter while it exists."
+  },
+  "materialEntityID": {
+    "value": "06809dc5-f143-459a-be1a-6f03e63fc083",
+    "description": "An identifier for a particular instance of a dwc:MaterialEntity."
+  },
+  "digitalSpecimenID": {
+    "value": "https://doi.org/10.3535/M42-Z4P-DRD",
+    "description": "An identifier for a Digital Specimen resource."
+  },
+  "materialEntityCategory": {
+    "value": "",
+    "description": "A high-level, mutually exclusive classification describing the fundamental substance and origin of a dwc:MaterialEntity."
+  },
+  "materialEntityType": {
+    "value": "",
+    "description": "A more generic classification of a dwc:MaterialEntity than dwc:preparations but less broad than dwc:materialCategory."
+  },
+  "discipline": {
+    "value": "",
+    "description": "The primary branch or branches of knowledge represented by the record."
+  },
+  "typeOfType": {
+    "value": "holotype",
+    "description": "A category of nomenclatural type of a dwc:MaterialEntity."
+  },
+  "typifiedName": {
+    "value": "Polysiphonia amphibolis Womersley",
+    "description": "A scientific name for which a specimen or other name is the type."
+  },
+  "catalogNumber": {
+    "value": "145732",
+    "description": "An identifier (preferably unique) for a resource within a collection."
+  },
+  "otherCatalogNumbers": {
+    "value": "FMNH:Mammal:1234",
+    "description": "A list (concatenated and separated) of previous or alternate fully qualified catalog numbers or other human-used identifiers for the same dwc:MaterialEntity, whether in the current or any other data set or collection."
+  },
+  "recordNumber": {
+    "value": "",
+    "description": "An identifier given to the dwc:Occurrence at the time it was recorded. Often serves as a link between field notes and a dwc:Occurrence record, such as a specimen collector's number."
+  },
+  "objectQuantity": {
+    "value": "27 (objectQuantity) with individuals (objectQuantityType)",
+    "description": "A number or enumeration value for the quantity of differentiable dwc:MaterialEntities comprising this dwc:MaterialEntity."
+  },
+  "objectQuantityType": {
+    "value": "",
+    "description": "The type of quantification system used for the quantity of dwc:MaterialEntities."
+  },
+  "preparations": {
+    "value": "",
+    "description": "A preparation or preservation method for a specimen."
+  },
+  "disposition": {
+    "value": "",
+    "description": "A current state of a dwc:MaterialEntity with respect to where it can be found."
+  },
+  "verbatimLabel": {
+    "value": "",
+    "description": "A verbatim original representation of the written information affixed or related to a dwc:MaterialEntity."
+  },
+  "associatedSequences": {
+    "value": "http://www.ncbi.nlm.nih.gov/nuccore/U34853.1",
+    "description": "A list (concatenated and separated) of dcterms:BibliographicResources for dwc:NucleotideSequences associated with a dwc:MaterialEntity."
+  },
+  "materialEntityRemarks": {
+    "value": "found in association with charred remains",
+    "description": "Comments or notes about a dwc:MaterialEntity."
+  },
+  "MaterialSample": {
+    "value": "a whole organism preserved in a collection",
+    "description": "A material entity that represents an entity of interest in whole or in part."
+  },
+  "materialSampleID": {
+    "value": "06809dc5-f143-459a-be1a-6f03e63fc083",
+    "description": "An identifier for the dwc:MaterialSample (as opposed to a particular digital record of the dwc:MaterialSample). In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the record that will most closely make the dwc:materialSampleID globally unique."
+  },
+  "Occurrence": {
+    "value": "a wolf pack on the shore of Kluane Lake in 1988",
+    "description": "A dwc:Event that establishes the state of a dwc:Organism at a particular place and time."
+  },
+  "occurrenceID": {
+    "value": "https://arctos.database.museum/guid/MSB:Mamm:231731?seid=966527",
+    "description": "An identifier for a dwc:Occurrence (as opposed to a particular digital record of a dwc:Occurrence)."
+  },
+  "recordedBy": {
+    "value": "",
+    "description": "An IRI identifying a dcterms:Agent responsible for recording a dwc:Occurrence."
+  },
+  "recordedByID": {
+    "value": "https://orcid.org/0000-0002-1825-0097 (for an individual)",
+    "description": "An identifier for a dcterms:Agent responsible for recording a dwc:Occurrence."
+  },
+  "individualCount": {
+    "value": "0",
+    "description": "The number of individuals present at the time of the dwc:Occurrence."
+  },
+  "organismQuantity": {
+    "value": "27 (organismQuantity) with individuals (organismQuantityType)",
+    "description": "A number or enumeration value for the quantity of dwc:Organisms."
+  },
+  "organismQuantityType": {
+    "value": "",
+    "description": "The type of quantification system used for the quantity of organisms."
+  },
+  "sex": {
+    "value": "",
+    "description": "A sex of a dwc:Organism."
+  },
+  "lifeStage": {
+    "value": "",
+    "description": "An age class or life stage of a dwc:Organism."
+  },
+  "reproductiveCondition": {
+    "value": "",
+    "description": "A reproductive condition of a dwc:Organism."
+  },
+  "caste": {
+    "value": "",
+    "description": "A social caste of a dwc:Organism."
+  },
+  "behavior": {
+    "value": "",
+    "description": "A behavior shown by a dwc:Organism."
+  },
+  "vitality": {
+    "value": "",
+    "description": "An indication of whether a dwc:Organism was alive or dead at the time of collection or observation."
+  },
+  "establishmentMeans": {
+    "value": "http://rs.tdwg.org/dwcem/values/e001",
+    "description": "Statement about whether a dwc:Organism has been introduced to a given place and time through the direct or indirect activity of modern humans."
+  },
+  "degreeOfEstablishment": {
+    "value": "http://rs.tdwg.org/dwcdoe/values/d003",
+    "description": "The degree to which a dwc:Organism survives, reproduces, and expands its range at the given place and time."
+  },
+  "pathway": {
+    "value": "http://rs.tdwg.org/dwcpw/values/p002",
+    "description": "The process by which a dwc:Organism came to be in a given place at a given time."
+  },
+  "georeferenceVerificationStatus": {
+    "value": "",
+    "description": "A categorical description of the extent to which the georeference has been verified to represent the best possible spatial description for the dcterms:Location of the dwc:Occurrence."
+  },
+  "occurrenceStatus": {
+    "value": "",
+    "description": "A statement about the detection or non-detection of a dwc:Organism during a dwc:Event."
+  },
+  "associatedMedia": {
+    "value": "https://arctos.database.museum/media/10520962 | https://arctos.database.museum/media/10520964",
+    "description": "A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of media associated with the dwc:Occurrence."
+  },
+  "associatedOccurrences": {
+    "value": "\"parasite collected from\":\"https://arctos.database.museum/guid/MSB:Mamm:215895?seid=950760\"",
+    "description": "A list (concatenated and separated) of identifiers of other dwc:Occurrence records and their associations to this dwc:Occurrence."
+  },
+  "associatedReferences": {
+    "value": "http://www.sciencemag.org/cgi/content/abstract/322/5899/261",
+    "description": "A list (concatenated and separated) of identifiers (publication, bibliographic reference, global unique identifier, URI) of literature associated with the dwc:Occurrence."
+  },
+  "associatedTaxa": {
+    "value": "\"host\":\"Quercus alba\"",
+    "description": "A list (concatenated and separated) of identifiers or names of dwc:Taxon records and the associations of this dwc:Occurrence to each of them."
+  },
+  "occurrenceRemarks": {
+    "value": "found dead on road",
+    "description": "Comments or notes about the dwc:Occurrence."
+  },
+  "Organism": {
+    "value": "a specific bird",
+    "description": "A particular organism or defined group of organisms considered to be taxonomically homogeneous."
+  },
+  "organismID": {
+    "value": "http://arctos.database.museum/guid/WNMU:Mamm:1249",
+    "description": "An identifier for the dwc:Organism instance (as opposed to a particular digital record of the dwc:Organism). May be a globally unique identifier or an identifier specific to the data set."
+  },
+  "organismScope": {
+    "value": "",
+    "description": "A description of the kind of dwc:Organism instance. Can be used to indicate whether the dwc:Organism instance represents a discrete organism or if it represents a particular type of aggregation."
+  },
+  "organismName": {
+    "value": "Huberta",
+    "description": "A textual name or label assigned to a dwc:Organism instance."
+  },
+  "causeOfDeath": {
+    "value": "trap",
+    "description": "An indication of the known or suspected cause of death of a dwc:Organism."
+  },
+  "associatedOrganisms": {
+    "value": "\"sibling of\":\"http://arctos.database.museum/guid/DMNS:Mamm:14171\"",
+    "description": "A list (concatenated and separated) of identifiers of other dwc:Organisms and the associations of this dwc:Organism to each of them."
+  },
+  "previousIdentifications": {
+    "value": "Chalepidae",
+    "description": "A list (concatenated and separated) of previous assignments of names to the dwc:Organism."
+  },
+  "organismRemarks": {
+    "value": "One of a litter of six",
+    "description": "Comments or notes about the dwc:Organism instance."
+  },
+  "OrganismInteraction": {
+    "value": "a bee visiting a flower",
+    "description": "An interaction between two dwc:Organisms during a dwc:Event."
+  },
+  "organismInteractionID": {
+    "value": "",
+    "description": "An identifier for a dwc:OrganismInteraction."
+  },
+  "organismInteractionDescription": {
+    "value": "Mallophora ruficauda captured an Apis mellifera worker in flight.",
+    "description": "A verbatim description of a dwc:OrganismInteraction."
+  },
+  "organismInteractionType": {
+    "value": "",
+    "description": "A category that best matches the nature of a dwc:OrganismInteraction."
+  },
+  "MeasurementOrFact": {
+    "value": "the weight of a dwc:Organism in grams",
+    "description": "A measurement of or fact about an rdfs:Resource (http://www.w3.org/2000/01/rdf-schema#Resource)."
+  },
+  "measurementID": {
+    "value": "9c752d22-b09a-11e8-96f8-529269fb1459",
+    "description": "An identifier for the dwc:MeasurementOrFact (information pertaining to measurements, facts, characteristics, or assertions). May be a global unique identifier or an identifier specific to the data set."
+  },
+  "parentMeasurementID": {
+    "value": "9c752d22-b09a-11e8-96f8-529269fb1459",
+    "description": "An identifier for a broader dwc:MeasurementOrFact that groups this and potentially other dwc:MeasurementOrFacts."
+  },
+  "measurementType": {
+    "value": "",
+    "description": "The nature of the measurement, fact, characteristic, or assertion."
+  },
+  "verbatimMeasurementType": {
+    "value": "water_temp",
+    "description": "A string representing the type of measurement or fact as it appeared in the original record."
+  },
+  "measurementValue": {
+    "value": "http://vocab.nerc.ac.uk/collection/L22/current/TOOL0960/",
+    "description": "The value of the measurement, fact, characteristic, or assertion."
+  },
+  "measurementAccuracy": {
+    "value": "0.01",
+    "description": "The description of the potential error associated with the dwc:measurementValue."
+  },
+  "measurementUnit": {
+    "value": "",
+    "description": "The units associated with the dwc:measurementValue."
+  },
+  "measurementDeterminedBy": {
+    "value": "",
+    "description": "A person, group, or organization who determined the value of the dwc:MeasurementOrFact."
+  },
+  "measurementDeterminedDate": {
+    "value": "1963-03-08T14:07-06:00 (8 Mar 1963 at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "The date on which the dwc:MeasurementOrFact was made."
+  },
+  "measurementMethod": {
+    "value": "",
+    "description": "The method or protocol used to determine the measurement, fact, characteristic, or assertion."
+  },
+  "measurementRemarks": {
+    "value": "tip of tail missing",
+    "description": "Comments or notes accompanying the dwc:MeasurementOrFact."
+  },
+  "Media": {
+    "value": "dcmi:Sound",
+    "description": "A digital or physical media resource."
+  },
+  "MolecularProtocol": {
+    "value": "a standard DNA barcoding workflow using Sanger sequencing",
+    "description": "A protocol used to perform a dwc:NucleotideAnalysis and potentially derive a dwc:NucleotideSequence from a dwc:MaterialEntity."
+  },
+  "molecularProtocolID": {
+    "value": "",
+    "description": "An identifier for a dwc:MolecularProtocol."
+  },
+  "assayType": {
+    "value": "",
+    "description": "A type of method used in a study to detect taxon/taxa of interest in a dwc:MaterialEntity."
+  },
+  "NucleotideAnalysis": {
+    "value": "",
+    "description": "A link between a dwc:NucleotideSequence or a dwc:Identification and a dwc:Event and a dwc:MaterialEntity from which it was derived, using a specified dwc:Protocol."
+  },
+  "readCount": {
+    "value": "325",
+    "description": "The number of reads obtained for a processed dwc:NucleotideSequence during a dwc:NucleotideAnalysis."
+  },
+  "processedTotalReadCount": {
+    "value": "50638, 345987, 764032",
+    "description": "The total number of reads obtained for a processed dwc:NucleotideSequence during a dwc:NucleotideAnalysis."
+  },
+  "NucleotideSequence": {
+    "value": "",
+    "description": "A digital representation of a nucleotide sequence."
+  },
+  "sequence": {
+    "value": "TCTATCCTCAATTATAGGTCATAATTCACCATCAG",
+    "description": "A string representing nucleotide base pairs."
+  },
+  "nucleotideSequenceRemarks": {
+    "value": "",
+    "description": "Comments or notes about a dwc:NucleotideSequence."
+  },
+  "Protocol": {
+    "value": "a pitfall trap method for sampling ground-dwelling arthropods",
+    "description": "A method used during an action."
+  },
+  "protocolID": {
+    "value": "",
+    "description": "An identifier for a dwc:Protocol."
+  },
+  "protocolType": {
+    "value": "",
+    "description": "A category that best matches the nature of a dwc:Protocol."
+  },
+  "protocolDescription": {
+    "value": "Georeference following Zermoglio et al. 2020 (https://doi.org/10.35035/e09p-h128), using GeoPick (https://geopick.gbif.org/) for named place determinations and Georeferencing Calculator (https://github.com/VertNet/georefcalculator) for complex uncertainties.",
+    "description": "A detailed description of a dwc:Protocol."
+  },
+  "protocolReferences": {
+    "value": "Penguins from space: faecal stains reveal the location of emperor penguin colonies, https://doi.org/10.1111/j.1466-8238.2009.00467.x",
+    "description": "A list (concatenated and separated) of dcterms:BibliographicResources used in a dwc:Protocol."
+  },
+  "protocolRemarks": {
+    "value": "",
+    "description": "Comments or notes about a dwc:Protocol."
+  },
+  "Provenance": {
+    "value": "",
+    "description": "Information about an entity\u2019s origins."
+  },
+  "projectTitle": {
+    "value": "Arctic Deep",
+    "description": "A list (concatenated and separated) of titles or names for projects that contributed to a dwc:Event."
+  },
+  "projectID": {
+    "value": "https://arvenetternansen.com/",
+    "description": "A list (concatenated and separated) of identifiers for projects that contributed to a dwc:Event."
+  },
+  "fundingAttribution": {
+    "value": "",
+    "description": "An organization or agency that provided funding for a project."
+  },
+  "fundingAttributionID": {
+    "value": "https://ror.org/00epmv149",
+    "description": "An identifier for a dcterms:Agent that financially supported a project."
+  },
+  "ResourceRelationship": {
+    "value": "an instance of a dwc:Organism is the mother of another instance of a dwc:Organism",
+    "description": "A relationship of one rdfs:Resource (http://www.w3.org/2000/01/rdf-schema#Resource) to another."
+  },
+  "resourceRelationshipID": {
+    "value": "",
+    "description": "An identifier for a dwc:ResourceRelationship."
+  },
+  "resourceID": {
+    "value": "f809b9e0-b09b-11e8-96f8-529269fb1459",
+    "description": "An identifier for the resource that is the subject of the relationship."
+  },
+  "relationshipOfResourceID": {
+    "value": "http://purl.obolibrary.org/obo/RO_0002456 (for the relation pollinated by)",
+    "description": "An identifier for the relationship type (predicate) that connects the subject identified by dwc:resourceID to its object identified by dwc:relatedResourceID."
+  },
+  "relatedResourceID": {
+    "value": "dc609808-b09b-11e8-96f8-529269fb1459",
+    "description": "An identifier for the related resource (the object) of a dwc:ResourceRelationship."
+  },
+  "relationshipOfResource": {
+    "value": "same as",
+    "description": "The relationship of the subject (identified by dwc:resourceID) to the object (identified by dwc:relatedResourceID)."
+  },
+  "relationshipAccordingTo": {
+    "value": "Julie Woodruff",
+    "description": "The source (person, organization, publication, reference) establishing the relationship between the two resources."
+  },
+  "relationshipEstablishedDate": {
+    "value": "1963-03-08T14:07-06:00 (8 Mar 1963 at or after 2:07pm and before 2:08pm in the time zone six hours earlier than UTC)",
+    "description": "The date-time on which the relationship between the two resources was established."
+  },
+  "relationshipRemarks": {
+    "value": "mother and offspring collected from the same nest",
+    "description": "Comments or notes about the relationship between the two resources."
+  },
+  "Taxon": {
+    "value": "the genus Truncorotaloides as published by Br\u00f6nnimann et al. in 1953 in the Journal of Paleontology Vol. 27(6) p. 817-820",
+    "description": "A group of organisms (sensu http://purl.obolibrary.org/obo/OBI_0100026) considered by taxonomists to form a homogeneous unit."
+  },
+  "taxonID": {
+    "value": "8fa58e08-08de-4ac1-b69c-1235340b7001",
+    "description": "An identifier for a dwc:Taxon."
+  },
+  "scientificNameID": {
+    "value": "urn:lsid:ipni.org:names:37829-1:1.3",
+    "description": "An identifier for the nomenclatural (not taxonomic) details of a scientific name."
+  },
+  "acceptedNameUsageID": {
+    "value": "tsn:41107 (ITIS)",
+    "description": "An identifier for the name usage (documented meaning of the name according to a source) of the currently valid (zoological) or accepted (botanical) taxon."
+  },
+  "parentNameUsageID": {
+    "value": "tsn:41074 (ITIS)",
+    "description": "An identifier for the name usage (documented meaning of the name according to a source) of the direct, most proximate higher-rank parent taxon (in a classification) of the most specific element of the dwc:scientificName."
+  },
+  "originalNameUsageID": {
+    "value": "tsn:41107 (ITIS)",
+    "description": "An identifier for the name usage (documented meaning of the name according to a source) in which the terminal element of the dwc:scientificName was originally established under the rules of the associated dwc:nomenclaturalCode."
+  },
+  "nameAccordingToID": {
+    "value": "https://doi.org/10.1016/S0269-915X(97)80026-2",
+    "description": "An identifier for the source in which the specific taxon concept circumscription is defined or implied. See dwc:nameAccordingTo."
+  },
+  "namePublishedInID": {
+    "value": "",
+    "description": "An identifier for the publication in which the dwc:scientificName was originally established under the rules of the associated dwc:nomenclaturalCode."
+  },
+  "taxonConceptID": {
+    "value": "8fa58e08-08de-4ac1-b69c-1235340b7001",
+    "description": "An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a dwc:Taxon."
+  },
+  "scientificName": {
+    "value": "Coleoptera (order)",
+    "description": "The full scientific name, with authorship and date information if known. When forming part of a dwc:Identification, this should be the name in lowest level taxonomic rank that can be determined."
+  },
+  "acceptedNameUsage": {
+    "value": "Tamias minimus (valid name for Eutamias minimus)",
+    "description": "The full name, with authorship and date information if known, of the currently valid (zoological) or accepted (botanical) dwc:Taxon."
+  },
+  "parentNameUsage": {
+    "value": "Rubiaceae",
+    "description": "The full name, with authorship and date information if known, of the direct, most proximate higher-rank parent dwc:Taxon (in a classification) of the most specific element of the dwc:scientificName."
+  },
+  "originalNameUsage": {
+    "value": "Pinus abies",
+    "description": "The taxon name, with authorship and date information if known, as it originally appeared when first established under the rules of the associated dwc:nomenclaturalCode. The basionym (botany) or basonym (bacteriology) of the dwc:scientificName or the senior/earlier homonym for replaced names."
+  },
+  "nameAccordingTo": {
+    "value": "Franz NM, Cardona-Duque J (2013) Description of two new species and phylogenetic reassessment of Perelleschus Wibmer & O\u2019Brien, 1986 (Coleoptera: Curculionidae), with a complete taxonomic concept history of Perelleschus sec. Franz & Cardona-Duque, 2013. Syst Biodivers. 11: 209\u2013236. (as the full citation of the Franz & Cardona-Duque (2013) in Perelleschus splendida sec. Franz & Cardona-Duque (2013))",
+    "description": "The reference to the source in which the specific taxon concept circumscription is defined or implied - traditionally signified by the Latin \"sensu\" or \"sec.\" (from secundum, meaning \"according to\"). For taxa that result from identifications, a reference to the keys, monographs, experts and other sources should be given."
+  },
+  "namePublishedIn": {
+    "value": "Pearson O. P., and M. I. Christie. 1985. Historia Natural, 5(37):388",
+    "description": "A reference for the publication in which the dwc:scientificName was originally established under the rules of the associated dwc:nomenclaturalCode."
+  },
+  "namePublishedInYear": {
+    "value": "1915",
+    "description": "The four-digit year in which the dwc:scientificName was published."
+  },
+  "higherClassification": {
+    "value": "Plantae | Tracheophyta | Magnoliopsida | Ranunculales | Ranunculaceae | Ranunculus",
+    "description": "A list (concatenated and separated) of taxa names terminating at the rank immediately superior to the referenced dwc:Taxon."
+  },
+  "kingdom": {
+    "value": "Animalia",
+    "description": "The full scientific name of the kingdom in which the dwc:Taxon is classified."
+  },
+  "phylum": {
+    "value": "Chordata (phylum)",
+    "description": "The full scientific name of the phylum or division in which the dwc:Taxon is classified."
+  },
+  "class": {
+    "value": "Mammalia",
+    "description": "The full scientific name of the class in which the dwc:Taxon is classified."
+  },
+  "order": {
+    "value": "Carnivora",
+    "description": "The full scientific name of the order in which the dwc:Taxon is classified."
+  },
+  "superfamily": {
+    "value": "Achatinoidea",
+    "description": "The full scientific name of the superfamily in which the dwc:Taxon is classified."
+  },
+  "family": {
+    "value": "Felidae",
+    "description": "The full scientific name of the family in which the dwc:Taxon is classified."
+  },
+  "subfamily": {
+    "value": "Periptyctinae",
+    "description": "The full scientific name of the subfamily in which the dwc:Taxon is classified."
+  },
+  "tribe": {
+    "value": "Ortaliini",
+    "description": "The full scientific name of the tribe in which the dwc:Taxon is classified."
+  },
+  "subtribe": {
+    "value": "Plotinini",
+    "description": "The full scientific name of the subtribe in which the dwc:Taxon is classified."
+  },
+  "genus": {
+    "value": "Puma",
+    "description": "The full scientific name of the genus in which the dwc:Taxon is classified."
+  },
+  "genericName": {
+    "value": "Felis (for scientificName Felis concolor, with accompanying values of Puma concolor in acceptedNameUsage and Puma in genus)",
+    "description": "The genus part of the dwc:scientificName without authorship."
+  },
+  "subgenus": {
+    "value": "Abacetus (Parastygis)",
+    "description": "The full scientific name of the subgenus in which the dwc:Taxon is classified."
+  },
+  "infragenericEpithet": {
+    "value": "Abacetillus (for scientificName Abacetus (Abacetillus) ambiguus)",
+    "description": "The infrageneric part of a binomial name at ranks above species but below genus."
+  },
+  "specificEpithet": {
+    "value": "concolor",
+    "description": "The name of the first or species epithet of the dwc:scientificName."
+  },
+  "infraspecificEpithet": {
+    "value": "concolor (for scientificName Puma concolor concolor)",
+    "description": "The name of the lowest or terminal infraspecific of the dwc:scientificName."
+  },
+  "cultivarEpithet": {
+    "value": "King Edward (for scientificName Solanum tuberosum 'King Edward' and taxonRank cultivar)",
+    "description": "Part of the name of a cultivar, cultivar group or grex that follows the dwc:scientificName."
+  },
+  "taxonRank": {
+    "value": "subspecies",
+    "description": "The taxonomic rank of the most specific name in the dwc:scientificName."
+  },
+  "verbatimTaxonRank": {
+    "value": "Agamospecies",
+    "description": "The taxonomic rank of the most specific name in the dwc:scientificName as it appears in the original record."
+  },
+  "scientificNameAuthorship": {
+    "value": "(Torr.) J.T. Howell",
+    "description": "The authorship information for the dwc:scientificName formatted according to the conventions of the applicable dwc:nomenclaturalCode."
+  },
+  "vernacularName": {
+    "value": "c\u00f3ndor andino",
+    "description": "A common or vernacular name."
+  },
+  "nomenclaturalCode": {
+    "value": "ICN",
+    "description": "The nomenclatural code (or codes in the case of an ambiregnal name) under which the dwc:scientificName is constructed."
+  },
+  "taxonomicStatus": {
+    "value": "invalid",
+    "description": "The status of the use of the dwc:scientificName as a label for a taxon. Requires taxonomic opinion to define the scope of a dwc:Taxon. Rules of priority then are used to define the taxonomic status of the nomenclature contained in that scope, combined with the experts opinion. It must be linked to a specific taxonomic reference that defines the concept."
+  },
+  "nomenclaturalStatus": {
+    "value": "nom. ambig.",
+    "description": "The status related to the original publication of the name and its conformance to the relevant rules of nomenclature. It is based essentially on an algorithm according to the business rules of the code. It requires no taxonomic opinion."
+  },
+  "taxonRemarks": {
+    "value": "this name is a misspelling in common use",
+    "description": "Comments or notes about the taxon or name."
+  },
+  "UsagePolicy": {
+    "value": "",
+    "description": "Information about rights, usage, and attribution statements applicable to an entity."
+  },
+  "LivingSpecimen": {
+    "value": "a living plant in a botanical garden",
+    "description": "A specimen that is alive."
+  },
+  "PreservedSpecimen": {
+    "value": "a plant on an herbarium sheet",
+    "description": "A specimen that has been preserved."
+  },
+  "FossilSpecimen": {
+    "value": "a body fossil",
+    "description": "A preserved specimen that is a fossil."
+  },
+  "MaterialCitation": {
+    "value": "a citation of a physical specimen from a scientific collection in a taxonomic treatment in a scientific publication",
+    "description": "A reference to or citation of one, a part of, or multiple specimens in scholarly publications."
+  },
+  "HumanObservation": {
+    "value": "evidence of a dwc:Occurrence taken from field notes or literature",
+    "description": "An output of a human observation process."
+  },
+  "MachineObservation": {
+    "value": "a photograph",
+    "description": "An output of a machine observation process."
+  },
+  "earliestGeochronologicalEra": {
+    "value": "",
+    "description": "Use to link a dwc:GeologicalContext instance to chronostratigraphic time periods at the lowest possible level in a standardized hierarchy. Use this property to point to the earliest possible geological time period from which the dwc:MaterialEntity was collected."
+  },
+  "fromLithostratigraphicUnit": {
+    "value": "",
+    "description": "Use to link a dwc:GeologicalContext instance to an IRI-identified lithostratigraphic unit at the lowest possible level in a hierarchy."
+  },
+  "inCollection": {
+    "value": "",
+    "description": "Use to link any subject resource that is part of a collection to the collection containing the resource."
+  },
+  "inDataset": {
+    "value": "",
+    "description": "Use to link a subject dataset record to the dataset which contains it."
+  },
+  "inDescribedPlace": {
+    "value": "http://vocab.getty.edu/tgn/1019987",
+    "description": "Use to link a dcterms:Location instance subject to the lowest level standardized hierarchically-described resource."
+  },
+  "latestGeochronologicalEra": {
+    "value": "",
+    "description": "Use to link a dwc:GeologicalContext instance to chronostratigraphic time periods at the lowest possible level in a standardized hierarchy. Use this property to point to the latest possible geological time period from which the dwc:MaterialEntity was collected."
+  },
+  "toDigitalSpecimen": {
+    "value": "",
+    "description": "Use to link a dwc:Identification instance subject to a taxonomic entity such as a taxon, taxon concept, or taxon name use."
+  },
+  "toTaxon": {
+    "value": "",
+    "description": "Use to link a dwc:Identification instance subject to a taxonomic entity such as a taxon, taxon concept, or taxon name use."
+  }
+}
