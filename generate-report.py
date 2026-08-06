@@ -155,7 +155,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Term Mapping Report</title>
+<title>SSSOMatic Mapping Report</title>
 <style>
   :root {
     --canvas: #ffffff;

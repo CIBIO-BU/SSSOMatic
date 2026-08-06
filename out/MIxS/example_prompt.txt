@@ -1,0 +1,31 @@
+You are aligning terms between metadata standards for eDNA and biodiversity data.
+
+SUBJECT (source: FAIRe):
+  ID: FAIRe:recordedBy
+  Label: recordedBy
+  Description: A list (concatenated and separated) of names of people responsible for the submitted dataset
+  Example value: José E. Crespo
+
+CANDIDATE (source: MIxS):
+  ID: MIxS:mimarks_s_data
+  Label: mimarks_s_data
+  Description: MimarksS data. Data that comply with checklist MimarksS
+  Example value:
+
+Classify the semantic relationship using ONE SKOS predicate:
+  skos:exactMatch   — same concept, interchangeable
+  skos:closeMatch   — very similar, minor scope/wording differences
+  skos:broadMatch   — CANDIDATE is broader than SUBJECT
+  skos:narrowMatch  — CANDIDATE is narrower than SUBJECT
+  skos:relatedMatch — related but not hierarchical
+  no_match          — unrelated
+
+Also classify syntactic compatibility of values:
+  drop_in       — identical value patterns and units
+  transform     — compatible after conversion (unit, format)
+  incompatible  — value patterns fundamentally differ
+
+Respond with ONLY a JSON object, no prose:
+{"predicate": "...", "confidence": 0.0-1.0, "syntactic_compatibility": "...",
+  "justification": "<=2 sentences citing specific fields",
+  "transformation_note": null or "brief description"}
