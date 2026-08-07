@@ -1,0 +1,8 @@
+# curie_map:
+#   skos: "http://www.w3.org/2004/02/skos/core#"
+#   semapv: "https://w3id.org/semapv/vocab/"
+#   DwC: "http://rs.tdwg.org/dwc/terms/"
+#   FAIReSheets: "https://example.org/faire/terms/"  # TODO: replace with your real namespace IRI
+# mapping_set_id: "https://example.org/mappings/term-mapping-report"  # TODO: replace
+# license: "https://creativecommons.org/publicdomain/zero/1.0/"  # TODO: confirm
+subject_id	subject_label	predicate_id	object_id	object_label	confidence	mapping_justification	comment
