@@ -54,7 +54,7 @@ import requests
 import streamlit as st
 from streamlit.runtime.secrets import StreamlitSecretNotFoundError
 
-from generate_report import (
+from generate_html_report import (
     load_records, load_term_lookup, build_report_data, PREDICATE_ORDER,
 )
 

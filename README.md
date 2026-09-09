@@ -15,4 +15,4 @@ Misalignment? Heterogeneity? Inconsistency?
 - Ambiguous mappings
 - Manual mapping fatigue
 
-> Each dose combines lexical and semantic evidence, automated candidate assessment, and human validation.
+> Each dose combines lexical and semantic scoring, LLM-based candidate assessment, and human validation.
