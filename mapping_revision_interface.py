@@ -1,20 +1,15 @@
 """
-Streamlit review app for adjudicated subject/object term-mapping pairs.
+Streamlit app for revision of subject/object term-mapping pairs.
 
-Unlike the static HTML report, this runs as a local server: every accept/
-reject/edit is written straight to disk as it happens, and filtering/sorting
-uses Streamlit's built-in dataframe widget - no browser download/upload
-round-trip needed to persist review progress.
-
-Reuses the loading + report-building logic from generate_report.py so the
-two tools never disagree about how a "field" or "candidate" is shaped.
+Locally, every accept/reject/edit is written straight to disk as it happens.
+Filtering/sorting uses Streamlit's built-in dataframe widget.
 
 RUN LOCALLY
 -----------
     pip install streamlit pandas requests --break-system-packages
-    streamlit run review_app.py -- pairs.jsonl \\
-        --subject-terms faire_terms.json --object-terms dwc_terms.json \\
-        --decisions-log decisions_log.jsonl --sssom-out mappings.sssom.tsv
+    streamlit run mapping_revision_interface.py -- pairs.jsonl \\
+        --subject-terms faire_terms.json --object-terms object_terms.json \\
+        --decisions-log out/objct/decisions_log.jsonl --sssom-out out/objct/mappings.sssom.tsv
 
 DEPLOY ON STREAMLIT COMMUNITY CLOUD
 ------------------------------------
@@ -43,9 +38,9 @@ survives as long as the container does.
 OUTPUTS
 -------
 - <decisions-log>: JSONL, one line appended per decision (accept/reject/edit),
-  with a timestamp - a full audit trail, including overturned decisions.
+  with a timestamp. Serves as a full audit trail, including overturned decisions.
 - <sssom-out>: SSSOM-formatted TSV, rebuilt from the CURRENT state of
-  accepted/edited decisions each time you click "Write SSSOM file now".
+  accepted/edited decisions each time you click "Write SSSOM file".
 """
 import argparse
 import base64
@@ -75,11 +70,8 @@ def _secrets_has(key: str) -> bool:
     except StreamlitSecretNotFoundError:
         return False
 
-
-# ---------------------------------------------------------------------------
 # Config: st.secrets on Streamlit Cloud (no CLI args reach a deployed app
 # there), falling back to `streamlit run review_app.py -- ...` args locally.
-# ---------------------------------------------------------------------------
 @st.cache_resource
 def get_args():
     if _secrets_has("app"):
@@ -102,11 +94,9 @@ def get_args():
 
 args = get_args()
 
-
-# ---------------------------------------------------------------------------
 # Optional GitHub-backed durability for decisions_log/sssom_out. Only active
 # when an [github] secrets table is configured - see DEPLOY note above.
-# ---------------------------------------------------------------------------
+
 def _github_configured() -> bool:
     return _secrets_has("github")
 
@@ -157,13 +147,10 @@ report, object_terms_lookup = load_data(args.pairs, args.subject_terms, args.obj
 fields_by_id = {f["subject_id"]: f for f in report["fields"]}
 
 
-# ---------------------------------------------------------------------------
-# Decision state - one entry per (subject field, candidate), kept in
-# session_state. Every candidate must be decided before the field counts as
-# done, since the review workflow is now candidate-by-candidate rather than
-# "pick the best one and decide once".
+# Decision state is made one entry per (subject field, candidate), kept in
+# session_state.
 # action: "pending" | "accept" | "reject" | "edit"
-# ---------------------------------------------------------------------------
+
 def blank_decision():
     return {
         "action": "pending", "object_id": None, "object_label": None,
@@ -217,19 +204,30 @@ def write_sssom() -> pd.DataFrame:
                 "object_id": d["object_id"],
                 "object_label": d["object_label"],
                 "confidence": d["confidence"],
-                "mapping_justification": "semapv:ManualMappingCuration",
+                "mapping_justification": "semapv:CompositeMatching, semapv:LLMBasedMatching",
                 "comment": d["comment"] or "",
             })
 
+    # Namespace prefixes for curie_map are pulled straight from the CURIEs
+    # actually being written (fid / object_id "PREFIX:local_name"), rather
+    # than hardcoded "Subject"/"Object" placeholders - so if you ever map
+    # against a second object source, its prefix shows up here too.
+    prefixes = set()
+    for row in rows:
+        prefixes.add(row["subject_id"].split(":", 1)[0])
+        prefixes.add(row["object_id"].split(":", 1)[0])
+
     header_lines = [
         "# curie_map:",
-        '#   skos: "http://www.w3.org/2004/02/skos/core#"',
-        '#   semapv: "https://w3id.org/semapv/vocab/"',
-        '#   DwC: "http://rs.tdwg.org/dwc/terms/"',
-        '#   FAIReSheets: "https://example.org/faire/terms/"  # TODO: replace with your real namespace IRI',
-        '# mapping_set_id: "https://example.org/mappings/term-mapping-report"  # TODO: replace',
-        '# license: "https://creativecommons.org/publicdomain/zero/1.0/"  # TODO: confirm',
+        '#   skos: "http://www.w3.org/2004/02/skos/core#" #TODO: comfirm and delete this comment',
+        '#   semapv: "https://w3id.org/semapv/vocab/" #TODO: comfirm and delete this comment',
     ]
+    for prefix in sorted(prefixes):
+        header_lines.append(
+            f'#   {prefix}: "https://example.org/{prefix.lower()}/" '
+            "#TODO: replace with the real namespace IRI"
+        )
+    header_lines.append("#   TODO: add namespaces as needed")
     df = pd.DataFrame(rows, columns=["subject_id", "subject_label", "predicate_id", "object_id",
                                       "object_label", "confidence", "mapping_justification", "comment"])
     content = "\n".join(header_lines) + "\n" + df.to_csv(sep="\t", index=False)
@@ -254,18 +252,18 @@ def candidate_view(field: dict, candidate: dict, decision: dict):
 def max_confidence(field: dict) -> float:
     return max((c["confidence"] for c in field["candidates"]), default=0.0)
 
-# ---------------------------------------------------------------------------
+
 # Sidebar filters
-# ---------------------------------------------------------------------------
+
 st.sidebar.header("Filters")
-search = st.sidebar.text_input("Search field or match name").strip().lower()
-predicate_filter = st.sidebar.selectbox("Predicate", ["All"] + PREDICATE_ORDER)
+search = st.sidebar.text_input("Search field name:").strip().lower()
+predicate_filter = st.sidebar.selectbox("Predicate:", ["All"] + PREDICATE_ORDER)
 # Default to "pending" - the review workflow is mostly about clearing this queue,
 # and defaulting to "All" meant every fresh session opened on a wall of
 # already-decided rows.
-status_filter = st.sidebar.selectbox("Status", ["All", "pending", "accept", "reject", "edit"], index=1)
-min_conf = st.sidebar.slider("Min. confidence", 0, 100, 0) / 100
-max_conf = st.sidebar.slider("Max. confidence", 0, 100, 100) / 100
+status_filter = st.sidebar.selectbox("Status:", ["All", "pending", "accept", "reject", "edit"], index=1)
+min_conf = st.sidebar.slider("Min. confidence:", 0, 100, 0) / 100
+max_conf = st.sidebar.slider("Max. confidence:", 0, 100, 100) / 100
 
 # One row per (field, candidate) - each candidate is its own mapping
 # proposal with its own decision, so a table grouped by field was hiding
@@ -298,20 +296,20 @@ for field in report["fields"]:
 
 overview_df = pd.DataFrame(rows, columns=[
     "Field",
-    "Best match",
+    "Candidate match",
     "Predicate",
     "Confidence",
     "Status",
     "_subject_id",
 ])
 
-# ---------------------------------------------------------------------------
+
 # Header: predicate tally + live review progress
-# ---------------------------------------------------------------------------
+
 t = report["tally"]
-st.title("Term Mapping Review")
+st.title("Mapping Revision")
 st.caption(
-    f"{report['total_fields']} fields &middot; "
+    f"{report['total_fields']} subject fields &middot; "
     + " &middot; ".join(f"{t.get(p, 0)} {p}" for p in PREDICATE_ORDER),
     unsafe_allow_html=True,
 )
@@ -346,17 +344,18 @@ st.dataframe(
 )
 
 col_export1, col_export2 = st.columns([1, 3])
-if col_export1.button("Write SSSOM file now", type="primary"):
+if col_export1.button("Write SSSOM file", type="primary"):
     sssom_df = write_sssom()
-    st.success(f"Wrote {len(sssom_df)} accepted mappings to {args.sssom_out}")
+    st.success(f"Wrote {len(sssom_df)} accepted mappings to {args.sssom_out}.")
+    st.warning("**WARNING**: Please confirm and edit the SSSOM's CURIE map.")
 col_export2.caption(f"Decisions log: {args.decisions_log} (appended on every accept/reject/edit)")
 
 st.divider()
 
-# ---------------------------------------------------------------------------
+
 # Detail / review panel, grouped by field
 # reviewing happens by one field (and its candidates)
-# ---------------------------------------------------------------------------
+
 options = overview_df["_subject_id"].drop_duplicates().tolist() if not overview_df.empty else []
 if not options:
     st.info("No fields match the current filters.")
@@ -395,30 +394,29 @@ def advance_selection(current_id: str) -> None:
     # current_id was the only item left - nothing to advance to.
 
 
-def advance_within_field(subject_id: str, decided_candidate_key: str) -> None:
-    """After a candidate is decided (or skipped), move to the next pending
-    candidate of the SAME field. Only once every candidate in this field has
-    a decision does this hand off to advance_selection to move fields - the
-    point of the request this implements: review every retrieved candidate
-    for a field before moving on, rather than picking one and being done."""
-    cand_keys = [c["key"] for c in fields_by_id[subject_id]["candidates"]]
-    remaining = [
-        ck for ck in cand_keys
-        if ck != decided_candidate_key
-        and st.session_state.decisions[subject_id][ck]["action"] == "pending"
-    ]
-    if remaining:
-        st.session_state["_pending_candidate"] = remaining[0]
-    else:
-        advance_selection(subject_id)
+def advance_within_field(subject_id: str, current_candidate_key: str) -> None:
+    """Move to the next candidate, or to the next field if this is the last one."""
 
+    cand_keys = [
+        c["key"]
+        for c in fields_by_id[subject_id]["candidates"]
+    ]
+
+    current_idx = cand_keys.index(current_candidate_key)
+
+    if current_idx + 1 < len(cand_keys):
+        # Move to the next candidate
+        st.session_state["_pending_candidate"] = cand_keys[current_idx + 1]
+    else:
+        # No more candidates in this field → move to next field
+        advance_selection(subject_id)
 
 def save_decision(subject_id: str, candidate_key: str, new_decision: dict, label: str) -> None:
     st.session_state.decisions[subject_id][candidate_key] = new_decision
     log_decision(subject_id, candidate_key, new_decision)
     st.session_state["editing_open"] = False
     advance_within_field(subject_id, candidate_key)
-    st.toast(f"Saved \u2014 {label}: {fields_by_id[subject_id]['subject_label']}", icon="\u2705")
+    st.toast(f"Saved \u2014 {label}: {fields_by_id[subject_id]['subject_label']}")
     st.rerun()
 
 
@@ -432,7 +430,7 @@ elif st.session_state.get("field_select") not in options:
     st.session_state["field_select"] = options[0]
 
 selected_id = st.selectbox(
-    "Select a field to review",
+    "Select a field to review:",
     options,
     format_func=lambda fid: fields_by_id[fid]["subject_label"],
     key="field_select",
@@ -448,7 +446,7 @@ if st.session_state.get("_last_selected_id") != selected_id:
 
 field = fields_by_id[selected_id]
 position = options.index(selected_id) + 1
-st.caption(f"Reviewing {position} of {len(options)} shown")
+st.caption(f"Reviewing {position} of {len(options)} subject terms.")
 
 candidates_by_key = {c["key"]: c for c in field["candidates"]}
 candidate_keys = [c["key"] for c in field["candidates"]]
@@ -462,14 +460,14 @@ if "_pending_candidate" in st.session_state:
 elif st.session_state.get("candidate_select") not in candidate_keys:
     st.session_state["candidate_select"] = first_pending_candidate(selected_id)
 
-_status_icon = {"pending": "\u23f3", "accept": "\u2705", "reject": "\u274c", "edit": "\u270f\ufe0f"}
-
 chosen_key = st.radio(
-    "Candidate",
+    "Prospective candidates:",
     candidate_keys,
     format_func=lambda k: (
-        f'{_status_icon[candidate_decisions[k]["action"]]} {candidates_by_key[k]["object_label"]}  \u00b7  '
-        f'{candidates_by_key[k]["predicate"]}  \u00b7  {round(candidates_by_key[k]["confidence"] * 100)}%'
+        f'**[{candidate_decisions[k]["action"].capitalize()}]** '
+        f'{candidates_by_key[k]["object_label"]}  ·  '
+        f'{candidates_by_key[k]["predicate"]}  ·  '
+        f'{round(candidates_by_key[k]["confidence"] * 100)}%'
     ),
     key="candidate_select",
 )
@@ -478,39 +476,51 @@ chosen_decision = candidate_decisions[chosen_key]
 
 left, right = st.columns(2)
 with left:
-    st.subheader("Your field")
-    st.markdown(f"**{field['subject_label']}**")
-    st.write(field["subject_description"] or "_No description available._")
-    if field["subject_example"]:
-        st.caption(f"Example: {field['subject_example']}")
+    with st.container(border=True):
+        st.subheader("Subject Field")
+        st.markdown(f"**Field name:** {field['subject_label']}")
+        st.write(f"**Description:** {field['subject_description'] or 'No description available.'}")
+        if field["subject_example"]:
+            st.caption(f"Example: {field['subject_example']}")
 with right:
-    st.subheader(f"Best {chosen['object_source']} match")
-    st.markdown(f"**{chosen['object_label']}**")
-    st.write(chosen["object_description"] or "_No description available._")
-    if chosen["object_example"]:
-        st.caption(f"Example: {chosen['object_example']}")
+    with st.container(border=True):
+        st.subheader("Candidate Object Field")
+        st.markdown(f"**Field name:** {chosen['object_label']}")
+        st.write(f"**Description:** {chosen['object_description'] or 'No description available.'}")
+        if chosen["object_example"]:
+            st.caption(f"Example: {chosen['object_example'] or 'No example available.'}")
 
-st.markdown(
-    f"**Predicate:** `{chosen['predicate']}`  &nbsp;&nbsp; "
-    f"**Syntactic compatibility:** `{chosen['syntactic_compatibility']}`  &nbsp;&nbsp; "
-    f"**Confidence:** {round(chosen['confidence'] * 100)}%",
-    unsafe_allow_html=True,
-)
-st.write(chosen["justification"])
-if chosen["transformation_note"]:
-    st.caption(f"Transformation: {chosen['transformation_note']}")
+with st.container(border=True):
+    st.subheader("LLM Adjudication Summary")
+    st.markdown(
+        f"**Predicate:** `{chosen['predicate']}`  &nbsp;&nbsp; "
+        f"**Syntactic compatibility:** `{chosen['syntactic_compatibility']}`  &nbsp;&nbsp; "
+        f"**Confidence:** {round(chosen['confidence'] * 100)}%",
+        unsafe_allow_html=True,
+    )
+    st.write(f"**LLM-adjudicated predicate justification:** {chosen['justification']}")
+    if chosen["transformation_note"]:
+        st.write(f"**Suggested syntax transformation**: {chosen['transformation_note']}")
 
-# ---------------------------------------------------------------------------
+    st.caption(
+    "For guidance on SKOS mapping properties, "
+    "[consult the SKOS documentation](https://www.w3.org/TR/skos-reference/#mapping)."
+    )
+
+
 # Decision - one-click accept/reject for the common case; edit expands an
 # inline override form only when needed, instead of always showing every
 # override field behind a form-submit round trip. Applies to the currently
 # selected CANDIDATE only - the field itself advances once every candidate
 # has a decision (see advance_within_field above).
-# ---------------------------------------------------------------------------
+
 st.markdown("#### Decision")
+st.warning(
+    "**WARNING**: If you agree with a 'no_match' decision, select 'Reject' to reject the mapping."
+)
 b1, b2, b3, b4 = st.columns(4)
 
-if b1.button("\u2705 Accept", type="primary", use_container_width=True):
+if b1.button("Accept", use_container_width=True):
     save_decision(selected_id, chosen_key, {
         "action": "accept",
         "object_id": chosen["object_id"],
@@ -520,16 +530,16 @@ if b1.button("\u2705 Accept", type="primary", use_container_width=True):
         "comment": chosen["justification"],
     }, "accepted")
 
-if b2.button("\u274c Reject", use_container_width=True):
+if b2.button("Reject", use_container_width=True):
     save_decision(selected_id, chosen_key, {
         **blank_decision(),
         "action": "reject",
     }, "rejected")
 
-if b3.button("\u270f\ufe0f Edit", use_container_width=True):
+if b3.button("Edit", use_container_width=True):
     st.session_state["editing_open"] = True
 
-if b4.button("\u23ed\ufe0f Skip", use_container_width=True, help="Move on without recording a decision"):
+if b4.button("Skip", use_container_width=True, help="Move on without recording a decision"):
     advance_within_field(selected_id, chosen_key)
     st.rerun()
 
@@ -538,15 +548,15 @@ if st.session_state.get("editing_open"):
     # switching candidates while mid-edit gets a fresh form instead of
     # carrying over the previous candidate's typed-in overrides.
     with st.form(key=f"edit_form_{selected_id}_{chosen_key}"):
-        st.caption("Override the predicate and/or object term, then save.")
+        st.caption("Override the predicate, object term and/or comment, then save.")
         edit_predicate = st.selectbox(
-            "Predicate override",
+            "Predicate override:",
             PREDICATE_ORDER,
             index=PREDICATE_ORDER.index(chosen["predicate"]) if chosen["predicate"] in PREDICATE_ORDER else 0,
         )
         all_object_terms = sorted(object_terms_lookup.keys())
         manual_choice = st.selectbox(
-            "Object term override (optional - search the full term list, not just retrieved candidates)",
+            "Object term override (optional: search the full term list, not just retrieved candidates):",
             ["<keep candidate above>"] + all_object_terms,
         )
         if manual_choice != "<keep candidate above>":
@@ -562,11 +572,11 @@ if st.session_state.get("editing_open"):
             if chosen_decision["action"] == "edit" and chosen_decision["comment"]
             else chosen["justification"]
         )
-        edit_comment = st.text_area("Comment / reason for edit", value=default_comment)
+        edit_comment = st.text_area("Comment/reason for edit:", value=default_comment)
 
         col_save, col_cancel = st.columns([1, 1])
         submitted = col_save.form_submit_button("Save edit", type="primary")
-        cancelled = col_cancel.form_submit_button("Cancel")
+        cancelled = col_cancel.form_submit_button("Cancel", help="Cancel edits.")
 
         if submitted:
             save_decision(selected_id, chosen_key, {
