@@ -48,13 +48,14 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+import tempfile
 
 import pandas as pd
 import requests
 import streamlit as st
 from streamlit.runtime.secrets import StreamlitSecretNotFoundError
 
-from generate_html_report import (
+from src.sssomatic.generate_html_report import (
     load_records, load_term_lookup, build_report_data, PREDICATE_ORDER,
 )
 
@@ -70,10 +71,38 @@ def _secrets_has(key: str) -> bool:
     except StreamlitSecretNotFoundError:
         return False
 
-# Config: st.secrets on Streamlit Cloud (no CLI args reach a deployed app
-# there), falling back to `streamlit run review_app.py -- ...` args locally.
+def get_uploaded_paths():
+    st.subheader("Upload input files")
+    pairs_file = st.file_uploader("Pairs (JSONL)", type=["jsonl"])
+    subj_file  = st.file_uploader("Subject terms (JSON)", type=["json"])
+    obj_file   = st.file_uploader("Object terms (JSON)", type=["json"])
+
+    if not (pairs_file and subj_file and obj_file):
+        st.info("Upload all three files to continue.")
+        st.stop()
+
+    # One temp dir per browser session, reused across reruns
+    if "_upload_dir" not in st.session_state:
+        st.session_state["_upload_dir"] = tempfile.mkdtemp()
+    tmp_dir = Path(st.session_state["_upload_dir"])
+
+    def stage(uploaded_file):
+        dest = tmp_dir / uploaded_file.name
+        dest.write_bytes(uploaded_file.getvalue())
+        return dest
+
+    return argparse.Namespace(
+        pairs=stage(pairs_file),
+        subject_terms=stage(subj_file),
+        object_terms=stage(obj_file),
+        decisions_log=tmp_dir / "decisions_log.jsonl",
+        sssom_out=tmp_dir / "mappings.sssom.tsv",
+    )
+
+
 @st.cache_resource
-def get_args():
+def get_static_args():
+    """Only handles the two cases that don't need reactive widgets."""
     if _secrets_has("app"):
         cfg = st.secrets["app"]
         return argparse.Namespace(
@@ -83,16 +112,18 @@ def get_args():
             decisions_log=Path(cfg.get("decisions_log", "decisions_log.jsonl")),
             sssom_out=Path(cfg.get("sssom_out", "mappings.sssom.tsv")),
         )
-    ap = argparse.ArgumentParser()
-    ap.add_argument("pairs", type=Path)
-    ap.add_argument("--subject-terms", type=Path, default=None)
-    ap.add_argument("--object-terms", type=Path, default=None)
-    ap.add_argument("--decisions-log", type=Path, default=Path("decisions_log.jsonl"))
-    ap.add_argument("--sssom-out", type=Path, default=Path("mappings.sssom.tsv"))
-    return ap.parse_args(sys.argv[1:])
+    if len(sys.argv) > 1:
+        ap = argparse.ArgumentParser()
+        ap.add_argument("pairs", type=Path)
+        ap.add_argument("--subject-terms", type=Path, default=None)
+        ap.add_argument("--object-terms", type=Path, default=None)
+        ap.add_argument("--decisions-log", type=Path, default=Path("decisions_log.jsonl"))
+        ap.add_argument("--sssom-out", type=Path, default=Path("mappings.sssom.tsv"))
+        return ap.parse_args(sys.argv[1:])
+    return None
 
 
-args = get_args()
+args = get_static_args() or get_uploaded_paths()
 
 # Optional GitHub-backed durability for decisions_log/sssom_out. Only active
 # when an [github] secrets table is configured - see DEPLOY note above.
