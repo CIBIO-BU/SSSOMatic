@@ -58,7 +58,7 @@ from generate_report import (
     load_records, load_term_lookup, build_report_data, PREDICATE_ORDER,
 )
 
-st.set_page_config(page_title="Term Mapping Review", layout="wide")
+st.set_page_config(page_title="SSSOmatic®", layout="wide")
 
 
 def _secrets_has(key: str) -> bool:
@@ -307,7 +307,8 @@ overview_df = pd.DataFrame(rows, columns=[
 # Header: predicate tally + live review progress
 
 t = report["tally"]
-st.title("Mapping Revision")
+st.title("SSSOmatic®")
+st.subheader("*Discover matches. Assess relationships. Validate mappings.*")
 st.caption(
     f"{report['total_fields']} subject fields &middot; "
     + " &middot; ".join(f"{t.get(p, 0)} {p}" for p in PREDICATE_ORDER),
