@@ -75,7 +75,7 @@ from generate_html_report import (
     load_records, load_term_lookup, build_report_data, PREDICATE_ORDER,
 )
 
-st.set_page_config(page_title="SSSOmatic®", layout="wide")
+st.set_page_config(page_title="SSSOMatic™", layout="wide")
 
 
 def _secrets_has(key: str) -> bool:
@@ -426,7 +426,7 @@ overview_df = pd.DataFrame(rows, columns=[
 t = report["tally"]
 header_l, header_r = st.columns([6, 1])
 with header_l:
-    st.title("SSSOmatic®")
+    st.title("SSSOMatic™")
 with header_r:
     st.write("")  # small vertical nudge so the button lines up with the title, not the very top
     if STATIC_ARGS is None and st.button("**Upload files**", type="primary", use_container_width=True):

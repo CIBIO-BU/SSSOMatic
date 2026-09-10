@@ -1,8 +1,8 @@
-# SSSOmatic®
+# SSSOmatic™
 **Is your metadata suffering from semantic symptoms?**
 Misalignment? Heterogeneity? Inconsistency?
 
-**Try SSSOMatic®.**
+**Try SSSOMatic™.**
 *Discover matches. Assess relationships. Validate mappings.*
 
 ![til](sssomatic.gif)
