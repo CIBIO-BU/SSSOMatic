@@ -11,7 +11,7 @@ CLI usage:
     python sssomatic.py \\
         --subject-json data/FAIRe_standard.json --subject-source FAIRe \\
         --object-json data/dwc_term_history_filt.json --object-source DwC \\
-        --out-dir out/DwC
+        --out-dir out/DwC --google-api-key xxxxxxx
 
 Run `python sssomatic.py --help` for the full list of options.
 """
@@ -158,7 +158,7 @@ class Adjudication(BaseModel):
     transformation_note: Optional[str] = None
 
 
-PROMPT_TEMPLATE = """You are aligning terms between metadata standards for eDNA and biodiversity data.
+PROMPT_TEMPLATE = """You are aligning terms between metadata standards for biodiversity data.
 
 SUBJECT (source: {s_source}):
   ID: {s_id}
@@ -202,7 +202,9 @@ def build_prompt(subj: TermRecord, obj: TermRecord) -> str:
 
 
 class RateLimiter:
-    """Simple fixed-interval rate limiter shared across adjudication calls."""
+    """
+    Simple fixed-interval rate limiter shared across adjudication calls.
+    """
 
     def __init__(self, requests_per_minute: int):
         self.seconds_per_request = 60.0 / requests_per_minute
@@ -440,7 +442,7 @@ def main():
     api_key = args.google_api_key or os.environ.get("GOOGLE_API_KEY")
     if not api_key:
         raise SystemExit(
-            "No Google API key found. Pass --google-api-key or set the "
+            "No Google API key found. Please create on in https://aistudio.google.com/api-keys and pass --google-api-key or set the "
             "GOOGLE_API_KEY environment variable, or use --skip-adjudication."
         )
 

@@ -1,0 +1,17 @@
+name: sssomatic
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - pydantic
+  - rapidfuzz
+  - scikit-learn
+  - requests
+  - pip
+  - pip:
+      - sentence-transformers
+      - streamlit

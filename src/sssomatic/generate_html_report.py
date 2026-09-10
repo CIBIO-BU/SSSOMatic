@@ -34,10 +34,7 @@ import argparse
 import json
 from pathlib import Path
 
-
-# ---------------------------------------------------------------------------
 # Loading
-# ---------------------------------------------------------------------------
 
 def load_records(path: Path) -> list[dict]:
     text = path.read_text().strip()
@@ -69,9 +66,7 @@ def split_id(term_id: str) -> tuple[str, str]:
     return "", term_id
 
 
-# ---------------------------------------------------------------------------
 # Predicate tally (drives the summary line, keyed the same as the SKOS predicate)
-# ---------------------------------------------------------------------------
 
 PREDICATE_SHORT = {
     "skos:exactMatch": "exact",
@@ -86,9 +81,7 @@ PREDICATE_ORDER = ["skos:exactMatch", "skos:closeMatch", "skos:broadMatch",
                    "skos:narrowMatch", "skos:relatedMatch", "no_match"]
 
 
-# ---------------------------------------------------------------------------
 # Build report data
-# ---------------------------------------------------------------------------
 
 def build_report_data(records: list[dict], subject_terms: dict, object_terms: dict) -> dict:
     by_subject: dict[str, dict] = {}
@@ -147,9 +140,7 @@ def build_report_data(records: list[dict], subject_terms: dict, object_terms: di
     }
 
 
-# ---------------------------------------------------------------------------
 # Render HTML
-# ---------------------------------------------------------------------------
 
 PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
@@ -482,9 +473,7 @@ def render_html(report_data: dict) -> str:
     return html_out
 
 
-# ---------------------------------------------------------------------------
 # CLI
-# ---------------------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
