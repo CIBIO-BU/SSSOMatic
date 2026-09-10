@@ -71,7 +71,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit.runtime.secrets import StreamlitSecretNotFoundError
 
-from sssomatic.generate_html_report import (
+from generate_html_report import (
     load_records, load_term_lookup, build_report_data, PREDICATE_ORDER,
 )
 
