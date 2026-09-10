@@ -4,6 +4,14 @@ Streamlit app for revision of subject/object term-mapping pairs.
 Locally, every accept/reject/edit is written straight to disk as it happens.
 Filtering/sorting uses Streamlit's built-in dataframe widget.
 
+NAVIGATION
+----------
+The app opens on the review interface (empty until data is loaded). A
+"Upload files" button in the top-right corner switches to a dedicated
+upload page; loading files there returns you to the (now populated)
+review page. Deployments configured via secrets/CLI args (see below)
+skip the upload page entirely - the button won't appear.
+
 RUN LOCALLY
 -----------
     pip install streamlit pandas requests --break-system-packages
@@ -14,8 +22,9 @@ RUN LOCALLY
 DEPLOY ON STREAMLIT COMMUNITY CLOUD
 ------------------------------------
 Cloud only takes a repo/branch/main-file path - there's no way to pass the
-`--` CLI args above. Instead, bundle the input files in the repo and set an
-[app] table in the app's Secrets (Settings -> Secrets in the Cloud dashboard):
+`--` CLI args above. Either bundle the input files in the repo and set an
+[app] table in the app's Secrets (Settings -> Secrets in the Cloud dashboard),
+or leave [app] unset and use the in-app "Upload files" page instead:
 
     [app]
     pairs = "pairs.jsonl"
@@ -33,26 +42,33 @@ The [github] block is optional but strongly recommended: Cloud's local disk
 is not durable (redeploys, sleep/wake, and resource restarts can wipe it),
 so decisions_log/sssom_out are also committed back to the repo on every save
 when it's present. Without it, the app still works, but the audit trail only
-survives as long as the container does.
+survives as long as the container does - and files uploaded through the
+in-app upload page only survive as long as the current browser session.
 
 OUTPUTS
 -------
 - <decisions-log>: JSONL, one line appended per decision (accept/reject/edit),
   with a timestamp. Serves as a full audit trail, including overturned decisions.
 - <sssom-out>: SSSOM-formatted TSV, rebuilt from the CURRENT state of
-  accepted/edited decisions each time you click "Write SSSOM file".
+  accepted/edited decisions each time you click "Write SSSOM file". Clicking
+  that button also triggers an automatic browser download of both files,
+  zipped together, so you always leave with a local copy regardless of
+  whether GitHub durability is configured.
 """
 import argparse
 import base64
+import io
 import json
 import sys
+import tempfile
+import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
-import tempfile
 
 import pandas as pd
 import requests
 import streamlit as st
+import streamlit.components.v1 as components
 from streamlit.runtime.secrets import StreamlitSecretNotFoundError
 
 from generate_html_report import (
@@ -71,38 +87,12 @@ def _secrets_has(key: str) -> bool:
     except StreamlitSecretNotFoundError:
         return False
 
-def get_uploaded_paths():
-    st.subheader("Upload input files")
-    pairs_file = st.file_uploader("Pairs (JSONL)", type=["jsonl"])
-    subj_file  = st.file_uploader("Subject terms (JSON)", type=["json"])
-    obj_file   = st.file_uploader("Object terms (JSON)", type=["json"])
-
-    if not (pairs_file and subj_file and obj_file):
-        st.info("Upload all three files to continue.")
-        st.stop()
-
-    # One temp dir per browser session, reused across reruns
-    if "_upload_dir" not in st.session_state:
-        st.session_state["_upload_dir"] = tempfile.mkdtemp()
-    tmp_dir = Path(st.session_state["_upload_dir"])
-
-    def stage(uploaded_file):
-        dest = tmp_dir / uploaded_file.name
-        dest.write_bytes(uploaded_file.getvalue())
-        return dest
-
-    return argparse.Namespace(
-        pairs=stage(pairs_file),
-        subject_terms=stage(subj_file),
-        object_terms=stage(obj_file),
-        decisions_log=tmp_dir / "decisions_log.jsonl",
-        sssom_out=tmp_dir / "mappings.sssom.tsv",
-    )
-
 
 @st.cache_resource
 def get_static_args():
-    """Only handles the two cases that don't need reactive widgets."""
+    """Files supplied via secrets.toml [app] or `streamlit run ... -- ...`
+    CLI args. Returns None when neither is configured, in which case the
+    app falls back to the in-app upload page."""
     if _secrets_has("app"):
         cfg = st.secrets["app"]
         return argparse.Namespace(
@@ -123,7 +113,7 @@ def get_static_args():
     return None
 
 
-args = get_static_args() or get_uploaded_paths()
+STATIC_ARGS = get_static_args()
 
 # Optional GitHub-backed durability for decisions_log/sssom_out. Only active
 # when an [github] secrets table is configured - see DEPLOY note above.
@@ -174,7 +164,109 @@ def load_data(pairs_path, subj_path, obj_path):
     return report, object_terms
 
 
-report, object_terms_lookup = load_data(args.pairs, args.subject_terms, args.object_terms)
+EMPTY_REPORT = {"fields": [], "tally": {}, "total_fields": 0}
+
+
+def render_upload_page() -> None:
+    """Dedicated upload page. Reachable only via the top-bar button (or
+    automatically for a deployment that has neither secrets nor CLI args
+    AND has no data uploaded yet in this session)."""
+    st.title("Upload input files")
+
+    if STATIC_ARGS is not None:
+        st.info("This deployment already has files configured via secrets/CLI args - no upload needed.")
+        if st.button("← Back to interface"):
+            st.session_state["view"] = "review"
+            st.rerun()
+        st.stop()
+
+    pairs_file = st.file_uploader("Pairs (JSONL)", type=["jsonl"])
+    subj_file = st.file_uploader("Subject terms (JSON)", type=["json"])
+    obj_file = st.file_uploader("Object terms (JSON)", type=["json"])
+
+    can_load = bool(pairs_file and subj_file and obj_file)
+    col_load, col_cancel = st.columns([1, 1])
+
+    if col_load.button("Load files", type="primary", disabled=not can_load):
+        if "_upload_dir" not in st.session_state:
+            st.session_state["_upload_dir"] = tempfile.mkdtemp()
+        tmp_dir = Path(st.session_state["_upload_dir"])
+
+        def stage(uploaded_file):
+            dest = tmp_dir / uploaded_file.name
+            dest.write_bytes(uploaded_file.getvalue())
+            return dest
+
+        st.session_state["uploaded_args"] = argparse.Namespace(
+            pairs=stage(pairs_file),
+            subject_terms=stage(subj_file),
+            object_terms=stage(obj_file),
+            decisions_log=tmp_dir / "decisions_log.jsonl",
+            sssom_out=tmp_dir / "mappings.sssom.tsv",
+        )
+        # A newly uploaded dataset invalidates any previously loaded report
+        # and per-field decision state, so both get rebuilt fresh below.
+        load_data.clear()
+        st.session_state.pop("decisions", None)
+        st.session_state["view"] = "review"
+        st.rerun()
+
+    if col_cancel.button("Cancel"):
+        st.session_state["view"] = "review"
+        st.rerun()
+
+    if not can_load:
+        st.info("Upload all three files, then click Load files.")
+    st.stop()
+
+
+def trigger_zip_download(filename: str, files: dict[str, bytes]) -> None:
+    """Streamlit's st.download_button always needs an explicit second click
+    to actually save a file - there's no way to hand bytes to the browser
+    from Python alone. This works around that by rendering an invisible
+    page fragment with a normal download link and firing its `.click()`
+    from JS the moment it loads, so the save happens as a direct
+    consequence of the *first* click (the Streamlit button that called
+    this). Everything is bundled into one zip rather than one call per
+    file, since most browsers block a second silent auto-download that
+    isn't itself tied to a fresh user gesture."""
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        for name, content in files.items():
+            zf.writestr(name, content)
+    b64 = base64.b64encode(buf.getvalue()).decode()
+    components.html(
+        f"""
+        <a id="auto-dl" href="data:application/zip;base64,{b64}" download="{filename}"></a>
+        <script>document.getElementById('auto-dl').click();</script>
+        """,
+        height=0,
+    )
+
+
+# ---------------------------------------------------------------------
+# Navigation
+# ---------------------------------------------------------------------
+
+if "view" not in st.session_state:
+    st.session_state["view"] = "review"  # always land on the (possibly empty) review page
+
+if st.session_state["view"] == "upload":
+    render_upload_page()
+
+args = STATIC_ARGS or st.session_state.get("uploaded_args")
+
+top_l, top_r = st.columns([6, 1])
+with top_r:
+    if STATIC_ARGS is None and st.button("Upload files", type="primary", use_container_width=True):
+        st.session_state["view"] = "upload"
+        st.rerun()
+
+if args is not None:
+    report, object_terms_lookup = load_data(args.pairs, args.subject_terms, args.object_terms)
+else:
+    report, object_terms_lookup = EMPTY_REPORT, {}
+
 fields_by_id = {f["subject_id"]: f for f in report["fields"]}
 
 
@@ -267,6 +359,7 @@ def write_sssom() -> pd.DataFrame:
     if _github_configured():
         github_write_file(str(args.sssom_out), content, f"sssom: rebuild ({len(df)} mappings)")
     return df
+
 
 def candidate_view(field: dict, candidate: dict, decision: dict):
     """(object_label, predicate, confidence) for one candidate row - the
@@ -374,28 +467,19 @@ st.dataframe(
     hide_index=True,
 )
 
-col_export1, col_export2 = st.columns([1, 3])
-if col_export1.button("Write SSSOM file", type="primary"):
-    sssom_df = write_sssom()
-    st.success(f"Wrote {len(sssom_df)} accepted mappings to {args.sssom_out}.")
-    st.warning("**WARNING**: Please confirm and edit the SSSOM's CURIE map.")
-col_export2.caption(f"Decisions log: {args.decisions_log} (appended on every accept/reject/edit)")
-
-if args.sssom_out.exists():
-    st.download_button(
-        "Download SSSOM TSV",
-        data=args.sssom_out.read_bytes(),
-        file_name="mappings.sssom.tsv",
-        mime="text/tab-separated-values",
-    )
-if args.decisions_log.exists():
-    st.download_button(
-        "Download decisions log",
-        data=args.decisions_log.read_bytes(),
-        file_name="decisions_log.jsonl",
-        mime="application/jsonl",
-    )
-
+if args is not None:
+    col_export1, col_export2 = st.columns([1, 3])
+    if col_export1.button("Write SSSOM file", type="primary"):
+        sssom_df = write_sssom()
+        st.success(f"Wrote {len(sssom_df)} accepted mappings to {args.sssom_out}.")
+        st.warning("**WARNING**: Please confirm and edit the SSSOM's CURIE map.")
+        export_files = {args.sssom_out.name: args.sssom_out.read_bytes()}
+        if args.decisions_log.exists():
+            export_files[args.decisions_log.name] = args.decisions_log.read_bytes()
+        trigger_zip_download("sssomatic_export.zip", export_files)
+    col_export2.caption(f"Decisions log: {args.decisions_log} (appended on every accept/reject/edit)")
+else:
+    st.info("No data loaded yet. Click **Upload files** above to get started.")
 
 st.divider()
 
@@ -405,7 +489,10 @@ st.divider()
 
 options = overview_df["_subject_id"].drop_duplicates().tolist() if not overview_df.empty else []
 if not options:
-    st.info("No fields match the current filters.")
+    if args is None:
+        st.info("Nothing to review yet. Upload files to load subject/object mapping candidates.")
+    else:
+        st.info("No fields match the current filters.")
     st.stop()
 
 
