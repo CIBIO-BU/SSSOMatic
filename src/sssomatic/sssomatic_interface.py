@@ -2,7 +2,7 @@
 Streamlit app for revision of subject/object term-mapping pairs.
 
 Locally, every accept/reject/edit is written straight to disk as it happens.
-Filtering/sorting uses Streamlit's built-in dataframe widget.
+In streamlit it is
 
 NAVIGATION
 ----------
@@ -90,9 +90,11 @@ def _secrets_has(key: str) -> bool:
 
 @st.cache_resource
 def get_static_args():
-    """Files supplied via secrets.toml [app] or `streamlit run ... -- ...`
+    """
+    Files supplied via secrets.toml [app] or `streamlit run ... -- ...`
     CLI args. Returns None when neither is configured, in which case the
-    app falls back to the in-app upload page."""
+    app falls back to the in-app upload page.
+    """
     if _secrets_has("app"):
         cfg = st.secrets["app"]
         return argparse.Namespace(
@@ -168,9 +170,11 @@ EMPTY_REPORT = {"fields": [], "tally": {}, "total_fields": 0}
 
 
 def render_upload_page() -> None:
-    """Dedicated upload page. Reachable only via the top-bar button (or
+    """
+    Dedicated upload page. Reachable only via the top-bar button (or
     automatically for a deployment that has neither secrets nor CLI args
-    AND has no data uploaded yet in this session)."""
+    AND has no data uploaded yet in this session).
+    """
     st.title("Input Files Upload")
 
     if STATIC_ARGS is not None:
@@ -221,7 +225,8 @@ def render_upload_page() -> None:
 
 
 def trigger_zip_download(filename: str, files: dict[str, bytes]) -> None:
-    """Streamlit's st.download_button always needs an explicit second click
+    """
+    Streamlit's st.download_button always needs an explicit second click
     to actually save a file - there's no way to hand bytes to the browser
     from Python alone. This works around that by rendering an invisible
     page fragment with a normal download link and firing its `.click()`
@@ -229,7 +234,8 @@ def trigger_zip_download(filename: str, files: dict[str, bytes]) -> None:
     consequence of the *first* click (the Streamlit button that called
     this). Everything is bundled into one zip rather than one call per
     file, since most browsers block a second silent auto-download that
-    isn't itself tied to a fresh user gesture."""
+    isn't itself tied to a fresh user gesture.
+    """
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w") as zf:
         for name, content in files.items():
@@ -244,9 +250,7 @@ def trigger_zip_download(filename: str, files: dict[str, bytes]) -> None:
     )
 
 
-# ---------------------------------------------------------------------
 # Navigation
-# ---------------------------------------------------------------------
 
 if "view" not in st.session_state:
     st.session_state["view"] = "review"  # always land on the (possibly empty) review page
@@ -304,8 +308,10 @@ def log_decision(subject_id: str, candidate_key: str, decision: dict) -> None:
 
 
 def write_sssom() -> pd.DataFrame:
-    """Rebuilds the SSSOM TSV from ALL current accept/edit decisions across
-    every field/candidate pair (not append-only)."""
+    """
+    Rebuilds the SSSOM TSV from ALL current accept/edit decisions across
+    every field/candidate pair (not append-only).
+    """
     rows = []
     for fid, candidate_decisions in st.session_state.decisions.items():
         for d in candidate_decisions.values():
@@ -325,10 +331,6 @@ def write_sssom() -> pd.DataFrame:
                 "comment": d["comment"] or "",
             })
 
-    # Namespace prefixes for curie_map are pulled straight from the CURIEs
-    # actually being written (fid / object_id "PREFIX:local_name"), rather
-    # than hardcoded "Subject"/"Object" placeholders - so if you ever map
-    # against a second object source, its prefix shows up here too.
     prefixes = set()
     for row in rows:
         prefixes.add(row["subject_id"].split(":", 1)[0])
@@ -356,10 +358,12 @@ def write_sssom() -> pd.DataFrame:
 
 
 def candidate_view(field: dict, candidate: dict, decision: dict):
-    """(object_label, predicate, confidence) for one candidate row - the
+    """
+    (object_label, predicate, confidence) for one candidate row - the
     decision's own override if it was accepted/edited, else the candidate's
     original retrieved values. Edits don't carry a confidence score, so
-    those fall back to the candidate's original confidence too."""
+    those fall back to the candidate's original confidence too.
+    """
     if decision["action"] in ("accept", "edit") and decision["object_id"]:
         confidence = decision["confidence"] if decision["confidence"] is not None else candidate["confidence"]
         return decision["object_label"], decision["predicate"], confidence
@@ -375,17 +379,14 @@ def max_confidence(field: dict) -> float:
 st.sidebar.header("Filters")
 search = st.sidebar.text_input("Search field name:").strip().lower()
 predicate_filter = st.sidebar.selectbox("Predicate:", ["All"] + PREDICATE_ORDER)
-# Default to "pending" - the review workflow is mostly about clearing this queue,
-# and defaulting to "All" meant every fresh session opened on a wall of
-# already-decided rows.
+# Defaults to "pending"
 status_filter = st.sidebar.selectbox("Status:", ["All", "pending", "accept", "reject", "edit"], index=1)
 min_conf = st.sidebar.slider("Min. confidence:", 0, 100, 0) / 100
 max_conf = st.sidebar.slider("Max. confidence:", 0, 100, 100) / 100
 
-# One row per (field, candidate) - each candidate is its own mapping
-# proposal with its own decision, so a table grouped by field was hiding
-# that structure. The "select field to review" panel below stays grouped,
-# since reviewing is still done one field at a time.
+# One row per (field, candidate). Each candidate is its own mapping
+# proposal with its own decision. The "select field to review" panel is grouped,
+# since reviewing is done one field at a time.
 rows = []
 for field in report["fields"]:
     fid = field["subject_id"]
@@ -428,11 +429,23 @@ header_l, header_r = st.columns([6, 1])
 with header_l:
     st.title("SSSOMatic™")
 with header_r:
-    st.write("")  # small vertical nudge so the button lines up with the title, not the very top
+    st.write("")
+    st.write("") #  nudge so the button lines up with the title
     if STATIC_ARGS is None and st.button("**Upload files**", type="primary", use_container_width=True):
         st.session_state["view"] = "upload"
         st.rerun()
-st.subheader("*Discover matches. Assess relationships. Validate mappings.*")
+st.markdown(
+    """
+    <div style="font-size: 1.1rem; font-style: italic; margin-bottom: 0.5rem;">
+        Discover matches. Assess relationships. Validate mappings.
+    </div>
+    <hr style="border: none; border-top: 2px solid red; margin-top: 0;">
+    """,
+    unsafe_allow_html=True
+)
+
+
+st.subheader("Matching Overview")
 st.caption(
     f"{report['total_fields']} subject fields &middot; "
     + " &middot; ".join(f"{t.get(p, 0)} {p}" for p in PREDICATE_ORDER),
@@ -440,7 +453,7 @@ st.caption(
 )
 
 # Summed across every field/candidate decision, matching the demuxed table
-# above - not one count per field.
+# above. This means tallies are not one count per field, but per candidate matches.
 all_decisions = [d for cand_map in st.session_state.decisions.values() for d in cand_map.values()]
 accepted_n = sum(1 for d in all_decisions if d["action"] == "accept")
 edited_n = sum(1 for d in all_decisions if d["action"] == "edit")
@@ -485,7 +498,7 @@ else:
 st.divider()
 
 
-# Detail / review panel, grouped by field
+# Review panel, grouped by field
 # reviewing happens by one field (and its candidates)
 
 options = overview_df["_subject_id"].drop_duplicates().tolist() if not overview_df.empty else []
@@ -498,8 +511,10 @@ if not options:
 
 
 def first_pending_candidate(subject_id: str) -> str:
-    """The first not-yet-decided candidate for a field, in retrieval order,
-    or its first candidate at all if every one is already decided."""
+    """
+    The first not-yet-decided candidate for a field, in retrieval order,
+    or its first candidate at all if every one is already decided.
+    """
     for c in fields_by_id[subject_id]["candidates"]:
         if st.session_state.decisions[subject_id][c["key"]]["action"] == "pending":
             return c["key"]
@@ -507,7 +522,8 @@ def first_pending_candidate(subject_id: str) -> str:
 
 
 def advance_selection(current_id: str) -> None:
-    """Point the selectbox at the next remaining FIELD after `current_id`'s
+    """
+    Point the selectbox at the next remaining FIELD after `current_id`'s
     candidates are all decided. Uses the *pre-decision* filtered order:
     since only `current_id`'s status changes, every other item's filter
     membership is unaffected, so walking forward (then backward, for the
@@ -518,7 +534,8 @@ def advance_selection(current_id: str) -> None:
     has already been instantiated in this run (and the buttons that call
     this live below the selectbox), so this stages the target in a plain
     key instead. It's applied to `field_select` on the next run, before the
-    selectbox is created - see the seeding block below."""
+    selectbox is created - see the seeding block below.
+    """
     idx = options.index(current_id)
     for candidate in options[idx + 1:]:
         st.session_state["_pending_select"] = candidate
@@ -530,7 +547,9 @@ def advance_selection(current_id: str) -> None:
 
 
 def advance_within_field(subject_id: str, current_candidate_key: str) -> None:
-    """Move to the next candidate, or to the next field if this is the last one."""
+    """
+    Move to the next candidate, or to the next field if this is the last one.
+    """
 
     cand_keys = [
         c["key"]
@@ -543,7 +562,7 @@ def advance_within_field(subject_id: str, current_candidate_key: str) -> None:
         # Move to the next candidate
         st.session_state["_pending_candidate"] = cand_keys[current_idx + 1]
     else:
-        # No more candidates in this field → move to next field
+        # No more candidates in this field, move to next field
         advance_selection(subject_id)
 
 def save_decision(subject_id: str, candidate_key: str, new_decision: dict, label: str) -> None:
@@ -551,7 +570,6 @@ def save_decision(subject_id: str, candidate_key: str, new_decision: dict, label
     log_decision(subject_id, candidate_key, new_decision)
     st.session_state["editing_open"] = False
     advance_within_field(subject_id, candidate_key)
-    st.toast(f"Saved \u2014 {label}: {fields_by_id[subject_id]['subject_label']}")
     st.rerun()
 
 
@@ -564,6 +582,8 @@ if "_pending_select" in st.session_state:
 elif st.session_state.get("field_select") not in options:
     st.session_state["field_select"] = options[0]
 
+
+st.subheader("Field-by-Field Revision")
 selected_id = st.selectbox(
     "Select a field to review:",
     options,
@@ -643,10 +663,9 @@ with st.container(border=True):
     )
 
 
-# Decision - one-click accept/reject for the common case; edit expands an
-# inline override form only when needed, instead of always showing every
-# override field behind a form-submit round trip. Applies to the currently
-# selected CANDIDATE only - the field itself advances once every candidate
+# Decision is a one-click accept/reject for common cases; for edit, it expands an
+# inline override form when needed. Applies to the currently
+# selected CANDIDATE only, the field itself advances once every candidate
 # has a decision (see advance_within_field above).
 
 st.markdown("#### Decision")
