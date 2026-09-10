@@ -256,12 +256,6 @@ if st.session_state["view"] == "upload":
 
 args = STATIC_ARGS or st.session_state.get("uploaded_args")
 
-top_l, top_r = st.columns([6, 1])
-with top_r:
-    if STATIC_ARGS is None and st.button("Upload files", type="primary", use_container_width=True):
-        st.session_state["view"] = "upload"
-        st.rerun()
-
 if args is not None:
     report, object_terms_lookup = load_data(args.pairs, args.subject_terms, args.object_terms)
 else:
@@ -494,6 +488,12 @@ if not options:
     else:
         st.info("No fields match the current filters.")
     st.stop()
+
+top_l, top_r = st.columns([6, 1])
+with top_r:
+    if STATIC_ARGS is None and st.button("**Upload files**", type="primary", use_container_width=True):
+        st.session_state["view"] = "upload"
+        st.rerun()
 
 
 def first_pending_candidate(subject_id: str) -> str:
