@@ -268,6 +268,28 @@ def write_sssom() -> pd.DataFrame:
         github_write_file(str(args.sssom_out), content, f"sssom: rebuild ({len(df)} mappings)")
     return df
 
+col_export1, col_export2 = st.columns([1, 3])
+if col_export1.button("Write SSSOM file", type="primary"):
+    sssom_df = write_sssom()
+    st.success(f"Wrote {len(sssom_df)} accepted mappings to {args.sssom_out}.")
+    st.warning("**WARNING**: Please confirm and edit the SSSOM's CURIE map.")
+col_export2.caption(f"Decisions log: {args.decisions_log} (appended on every accept/reject/edit)")
+
+if args.sssom_out.exists():
+    st.download_button(
+        "Download SSSOM TSV",
+        data=args.sssom_out.read_bytes(),
+        file_name="mappings.sssom.tsv",
+        mime="text/tab-separated-values",
+    )
+if args.decisions_log.exists():
+    st.download_button(
+        "Download decisions log",
+        data=args.decisions_log.read_bytes(),
+        file_name="decisions_log.jsonl",
+        mime="application/jsonl",
+    )
+
 
 def candidate_view(field: dict, candidate: dict, decision: dict):
     """(object_label, predicate, confidence) for one candidate row - the
