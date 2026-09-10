@@ -71,7 +71,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit.runtime.secrets import StreamlitSecretNotFoundError
 
-from generate_html_report import (
+from sssomatic.generate_html_report import (
     load_records, load_term_lookup, build_report_data, PREDICATE_ORDER,
 )
 
@@ -174,8 +174,8 @@ def render_upload_page() -> None:
     st.title("Upload input files")
 
     if STATIC_ARGS is not None:
-        st.info("This deployment already has files configured via secrets/CLI args - no upload needed.")
-        if st.button("← Back to interface"):
+        st.info("This deployment already has files configured via secrets/CLI args, no upload needed.")
+        if st.button("Back to interface"):
             st.session_state["view"] = "review"
             st.rerun()
         st.stop()
@@ -255,12 +255,6 @@ if st.session_state["view"] == "upload":
     render_upload_page()
 
 args = STATIC_ARGS or st.session_state.get("uploaded_args")
-
-top_l, top_r = st.columns([6, 1])
-with top_r:
-    if STATIC_ARGS is None and st.button("**Upload files", type="primary", use_container_width=True):
-        st.session_state["view"] = "upload"
-        st.rerun()
 
 if args is not None:
     report, object_terms_lookup = load_data(args.pairs, args.subject_terms, args.object_terms)
@@ -430,7 +424,14 @@ overview_df = pd.DataFrame(rows, columns=[
 # Header: predicate tally + live review progress
 
 t = report["tally"]
-st.title("SSSOmatic®")
+header_l, header_r = st.columns([6, 1])
+with header_l:
+    st.title("SSSOmatic®")
+with header_r:
+    st.write("")  # small vertical nudge so the button lines up with the title, not the very top
+    if STATIC_ARGS is None and st.button("**Upload files**", type="primary", use_container_width=True):
+        st.session_state["view"] = "upload"
+        st.rerun()
 st.subheader("*Discover matches. Assess relationships. Validate mappings.*")
 st.caption(
     f"{report['total_fields']} subject fields &middot; "
