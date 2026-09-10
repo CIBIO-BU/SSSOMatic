@@ -171,7 +171,7 @@ def render_upload_page() -> None:
     """Dedicated upload page. Reachable only via the top-bar button (or
     automatically for a deployment that has neither secrets nor CLI args
     AND has no data uploaded yet in this session)."""
-    st.title("Upload input files")
+    st.title("Input Files Upload")
 
     if STATIC_ARGS is not None:
         st.info("This deployment already has files configured via secrets/CLI args, no upload needed.")
@@ -180,9 +180,9 @@ def render_upload_page() -> None:
             st.rerun()
         st.stop()
 
-    pairs_file = st.file_uploader("Pairs (JSONL)", type=["jsonl"])
-    subj_file = st.file_uploader("Subject terms (JSON)", type=["json"])
-    obj_file = st.file_uploader("Object terms (JSON)", type=["json"])
+    pairs_file = st.file_uploader("Pairs (JSONL):", type=["jsonl"])
+    subj_file = st.file_uploader("Subject terms (JSON):", type=["json"])
+    obj_file = st.file_uploader("Object terms (JSON):", type=["json"])
 
     can_load = bool(pairs_file and subj_file and obj_file)
     col_load, col_cancel = st.columns([1, 1])
