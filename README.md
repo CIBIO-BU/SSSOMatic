@@ -1,4 +1,4 @@
-# SSSOmatic™
+# SSSOMatic™
 **Is your metadata suffering from semantic symptoms?**
 Misalignment? Heterogeneity? Inconsistency?
 

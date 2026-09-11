@@ -184,7 +184,7 @@ def render_upload_page() -> None:
             st.rerun()
         st.stop()
 
-    pairs_file = st.file_uploader("Pairs (JSONL):", type=["jsonl"])
+    pairs_file = st.file_uploader("Candidate Mappings (JSONL):", type=["jsonl"])
     subj_file = st.file_uploader("Subject terms (JSON):", type=["json"])
     obj_file = st.file_uploader("Object terms (JSON):", type=["json"])
 
