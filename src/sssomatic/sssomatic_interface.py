@@ -187,6 +187,7 @@ def render_upload_page() -> None:
     pairs_file = st.file_uploader("Candidate Mappings (JSONL):", type=["jsonl"])
     subj_file = st.file_uploader("Subject terms (JSON):", type=["json"])
     obj_file = st.file_uploader("Object terms (JSON):", type=["json"])
+    decisions_file = st.file_uploader("Previous decisions log (JSONL, optional):", type=["jsonl"])
 
     can_load = bool(pairs_file and subj_file and obj_file)
     col_load, col_cancel = st.columns([1, 1])
@@ -201,11 +202,15 @@ def render_upload_page() -> None:
             dest.write_bytes(uploaded_file.getvalue())
             return dest
 
+        decisions_log_path = tmp_dir / "decisions_log.jsonl"
+        if decisions_file:
+            decisions_log_path.write_bytes(decisions_file.getvalue())
+
         st.session_state["uploaded_args"] = argparse.Namespace(
             pairs=stage(pairs_file),
             subject_terms=stage(subj_file),
             object_terms=stage(obj_file),
-            decisions_log=tmp_dir / "decisions_log.jsonl",
+            decisions_log=decisions_log_path,
             sssom_out=tmp_dir / "mappings.sssom.tsv",
         )
         # A newly uploaded dataset invalidates any previously loaded report
@@ -284,6 +289,16 @@ if "decisions" not in st.session_state:
         fid: {c["key"]: blank_decision() for c in f["candidates"]}
         for fid, f in fields_by_id.items()
     }
+    if args.decisions_log.exists():
+        with args.decisions_log.open() as f:
+            for line in f:
+                entry = json.loads(line)
+                fid, ckey = entry["subject_id"], entry["candidate_key"]
+                if fid in st.session_state.decisions and ckey in st.session_state.decisions[fid]:
+                    st.session_state.decisions[fid][ckey] = {
+                        k: entry[k] for k in
+                        ("action", "object_id", "object_label", "predicate", "confidence", "comment")
+                    }
 
 
 def log_decision(subject_id: str, candidate_key: str, decision: dict) -> None:
