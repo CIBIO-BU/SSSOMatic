@@ -289,7 +289,7 @@ if "decisions" not in st.session_state:
         fid: {c["key"]: blank_decision() for c in f["candidates"]}
         for fid, f in fields_by_id.items()
     }
-    if args.decisions_log.exists():
+    if args is not None and args.decisions_log.exists():
         with args.decisions_log.open() as f:
             for line in f:
                 entry = json.loads(line)
