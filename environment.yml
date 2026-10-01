@@ -10,8 +10,8 @@ dependencies:
   - pydantic
   - rapidfuzz
   - scikit-learn
-  - requests
   - pip
   - pip:
       - sentence-transformers
-      - streamlit
+      - google-genai
+      - python-dotenv

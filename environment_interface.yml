@@ -1,0 +1,13 @@
+name: sssomatic-interface
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pandas
+  - pydantic
+  - requests
+  - pip
+  - pip:
+      - streamlit
