@@ -1,2 +1,4 @@
 report.html
 out/MIxS/adjudication_cache_gemma-copy.jsonl
+.env
+src/sssomatic/__pycache__/*

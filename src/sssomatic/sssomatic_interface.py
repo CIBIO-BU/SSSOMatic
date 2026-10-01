@@ -184,9 +184,13 @@ def render_upload_page() -> None:
             st.rerun()
         st.stop()
 
-    pairs_file = st.file_uploader("Candidate Mappings (JSONL):", type=["jsonl"])
-    subj_file = st.file_uploader("Subject terms (JSON):", type=["json"])
-    obj_file = st.file_uploader("Object terms (JSON):", type=["json"])
+    pairs_file = st.file_uploader("Candidate Mappings (JSONL, required):", type=["jsonl"])
+    subj_file = st.file_uploader("Subject terms (JSON, required):", type=["json"])
+    obj_file = st.file_uploader("Object terms (JSON, required):", type=["json"])
+
+    st.divider()
+    st.markdown("If you wish to continue the revision process from a previous session, please also upload a decision log.")
+
     decisions_file = st.file_uploader("Previous decisions log (JSONL, optional):", type=["jsonl"])
 
     can_load = bool(pairs_file and subj_file and obj_file)
