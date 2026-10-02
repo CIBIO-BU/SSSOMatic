@@ -188,13 +188,13 @@ def render_upload_page() -> None:
     subj_file = st.file_uploader("Subject terms (JSON, required):", type=["json"])
     obj_file = st.file_uploader("Object terms (JSON, required):", type=["json"])
 
+    can_load = bool(pairs_file and subj_file and obj_file)
+    col_load, col_cancel = st.columns([1, 1])
+
     st.divider()
     st.markdown("If you wish to continue the revision process from a previous session, please also upload a decision log.")
 
     decisions_file = st.file_uploader("Previous decisions log (JSONL, optional):", type=["jsonl"])
-
-    can_load = bool(pairs_file and subj_file and obj_file)
-    col_load, col_cancel = st.columns([1, 1])
 
     if col_load.button("Load files", type="primary", disabled=not can_load):
         if "_upload_dir" not in st.session_state:
@@ -638,15 +638,20 @@ chosen_key = st.radio(
     "Prospective candidates:",
     candidate_keys,
     format_func=lambda k: (
-        f'**[{candidate_decisions[k]["action"].capitalize()}]** '
-        f'{candidates_by_key[k]["object_label"]}  ·  '
-        f'{candidates_by_key[k]["predicate"]}  ·  '
-        f'{round(candidates_by_key[k]["confidence"] * 100)}%'
-    ),
+        lambda lbl, pred, conf: (
+            f'**[{candidate_decisions[k]["action"].capitalize()}]** '
+            f'{lbl}  ·  {pred}  ·  {round(conf * 100)}%'
+        )
+    )(*candidate_view(field, candidates_by_key[k], candidate_decisions[k])),
     key="candidate_select",
 )
+
 chosen = candidates_by_key[chosen_key]
 chosen_decision = candidate_decisions[chosen_key]
+# effective values: override the LLM candidate's if there is one reviewer's accept/edit
+effective_label, effective_predicate, effective_conf = candidate_view(field, chosen, chosen_decision)
+overridden = chosen_decision["action"] in ("accept", "edit") and chosen_decision["object_id"]
+effective_object_id = chosen_decision["object_id"] if overridden else chosen["object_id"]
 
 left, right = st.columns(2)
 with left:
@@ -659,7 +664,7 @@ with left:
 with right:
     with st.container(border=True):
         st.subheader("Candidate Object Field")
-        st.markdown(f"**Field name:** {chosen['object_label']}")
+        st.markdown(f"**Field name:** {effective_label}")
         st.write(f"**Description:** {chosen['object_description'] or 'No description available.'}")
         if chosen["object_example"]:
             st.caption(f"Example: {chosen['object_example'] or 'No example available.'}")
@@ -667,11 +672,13 @@ with right:
 with st.container(border=True):
     st.subheader("LLM Adjudication Summary")
     st.markdown(
-        f"**Predicate:** `{chosen['predicate']}`  &nbsp;&nbsp; "
-        f"**Syntactic compatibility:** `{chosen['syntactic_compatibility']}`  &nbsp;&nbsp; "
-        f"**Confidence:** {round(chosen['confidence'] * 100)}%",
+        f"**LLM predicate:** `{chosen['predicate']}`  &nbsp;&nbsp; "
+        + (f"**Your decision:** `{effective_predicate}` ({chosen_decision['action']})  &nbsp;&nbsp; " if overridden else "")
+        + f"**Syntactic compatibility:** `{chosen['syntactic_compatibility']}`  &nbsp;&nbsp; "
+        f"**Confidence:** {round(effective_conf * 100)}%",
         unsafe_allow_html=True,
     )
+
     st.write(f"**LLM-adjudicated predicate justification:** {chosen['justification']}")
     if chosen["transformation_note"]:
         st.write(f"**Suggested syntax transformation**: {chosen['transformation_note']}")
@@ -725,7 +732,7 @@ if st.session_state.get("editing_open"):
         edit_predicate = st.selectbox(
             "Predicate override:",
             PREDICATE_ORDER,
-            index=PREDICATE_ORDER.index(chosen["predicate"]) if chosen["predicate"] in PREDICATE_ORDER else 0,
+            index=PREDICATE_ORDER.index(effective_predicate) if effective_predicate in PREDICATE_ORDER else 0,
         )
         all_object_terms = sorted(object_terms_lookup.keys())
         manual_choice = st.selectbox(
@@ -736,8 +743,9 @@ if st.session_state.get("editing_open"):
             edit_object_id = f"{chosen['object_source']}:{manual_choice}"
             edit_object_label = manual_choice
         else:
-            edit_object_id = chosen["object_id"]
-            edit_object_label = chosen["object_label"]
+            edit_object_id = effective_object_id
+            edit_object_label = effective_label
+
         # Default to this candidate's own justification text - if it was
         # already edited before, prefer the reviewer's own prior comment.
         default_comment = (
