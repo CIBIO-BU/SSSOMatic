@@ -184,19 +184,27 @@ def render_upload_page() -> None:
             st.rerun()
         st.stop()
 
-    pairs_file = st.file_uploader("Candidate Mappings (JSONL, required):", type=["jsonl"])
-    subj_file = st.file_uploader("Subject terms (JSON, required):", type=["json"])
-    obj_file = st.file_uploader("Object terms (JSON, required):", type=["json"])
+    st.caption(
+        "Upload the three required files, then click **Load files**. "
+        "To resume a previous session, also add its decisions log."
+    )
 
+    st.subheader("Required files")
+    pairs_file = st.file_uploader("Candidate Mappings (JSONL):", type=["jsonl"])
+    subj_file = st.file_uploader("Subject terms (JSON):", type=["json"])
+    obj_file = st.file_uploader("Object terms (JSON):", type=["json"])
+
+    st.subheader("Resume a previous session (optional)")
+    decisions_file = st.file_uploader("Previous decisions log (JSONL):", type=["jsonl"])
+
+    st.divider()
     can_load = bool(pairs_file and subj_file and obj_file)
     col_load, col_cancel = st.columns([1, 1])
 
-    st.divider()
-    st.markdown("If you wish to continue the revision process from a previous session, please also upload a decision log.")
-
-    decisions_file = st.file_uploader("Previous decisions log (JSONL, optional):", type=["jsonl"])
-
-    if col_load.button("Load files", type="primary", disabled=not can_load):
+    if col_load.button(
+        "Load files", type="primary", disabled=not can_load,
+        help=None if can_load else "Upload all three required files first.",
+    ):
         if "_upload_dir" not in st.session_state:
             st.session_state["_upload_dir"] = tempfile.mkdtemp()
         tmp_dir = Path(st.session_state["_upload_dir"])
@@ -209,6 +217,10 @@ def render_upload_page() -> None:
         decisions_log_path = tmp_dir / "decisions_log.jsonl"
         if decisions_file:
             decisions_log_path.write_bytes(decisions_file.getvalue())
+        else:
+            # _upload_dir is reused for the whole browser session, so a log
+            # from a previous load would otherwise leak into a "new" session.
+            decisions_log_path.unlink(missing_ok=True)
 
         st.session_state["uploaded_args"] = argparse.Namespace(
             pairs=stage(pairs_file),
@@ -228,8 +240,6 @@ def render_upload_page() -> None:
         st.session_state["view"] = "review"
         st.rerun()
 
-    if not can_load:
-        st.info("Upload all three files, then click Load files.")
     st.stop()
 
 
