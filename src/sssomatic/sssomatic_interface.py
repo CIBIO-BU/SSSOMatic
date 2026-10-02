@@ -190,11 +190,11 @@ def render_upload_page() -> None:
     )
 
     st.subheader("Required files")
-    pairs_file = st.file_uploader("Candidate Mappings (JSONL):", type=["jsonl"])
     subj_file = st.file_uploader("Subject terms (JSON):", type=["json"])
     obj_file = st.file_uploader("Object terms (JSON):", type=["json"])
+    pairs_file = st.file_uploader("Candidate Mappings (JSONL):", type=["jsonl"])
 
-    st.subheader("Resume a previous session (optional)")
+    st.subheader("Optional files: Resume a previous session.")
     decisions_file = st.file_uploader("Previous decisions log (JSONL):", type=["jsonl"])
 
     st.divider()
