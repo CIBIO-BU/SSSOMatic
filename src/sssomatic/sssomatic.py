@@ -229,6 +229,9 @@ def adjudicate(
     max_retries: int,
 ) -> Optional[Adjudication]:
 
+    from google import genai
+    from google.genai import types
+
     prompt = build_prompt(subj, obj)
 
     for attempt in range(max_retries):
