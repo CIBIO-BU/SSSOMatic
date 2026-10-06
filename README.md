@@ -26,7 +26,7 @@ git clone git@github.com:CIBIO-BU/SSSOMatic.git
 ```
 
 ```bash
-cd sssomatic
+cd SSSOMatic
 ```
 
 ```bash
@@ -38,5 +38,9 @@ conda activate sssomatic
 ```
 
 ```bash
-python src/sssomatic/sssomatic_workflow.py --subject-json data/FAIRe_standard.json --object-json data/mixs_terms_701.json --subject-source FAIRe --object-source MIxS --out-dir ./out/MIxS-CLI --google-api-key xxxxxxx
+pip install -e .
+```
+
+```bash
+sssomatic --subject-json data/FAIRe_standard.json --object-json data/mixs_terms_701.json --subject-source FAIRe --object-source MIxS --out-dir ./out/MIxS-CLI --google-api-key xxxxxxx
 ```

@@ -5,3 +5,4 @@ src/sssomatic/__pycache__/*
 data/DwC_DP/table-schemas
 src/sssomatic.egg-info
 data/legacy
+.vscode/*

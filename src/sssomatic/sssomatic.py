@@ -27,6 +27,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Literal, Optional
+import threading
 
 import numpy as np
 import pandas as pd
@@ -34,6 +35,8 @@ from pydantic import BaseModel, Field
 from rapidfuzz import fuzz
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+from google import genai
+from google.genai import types
 
 from dotenv import load_dotenv
 import os
@@ -209,22 +212,22 @@ def build_prompt(subj: TermRecord, obj: TermRecord) -> str:
 
 
 class RateLimiter:
-    """
-    Simple fixed-interval rate limiter shared across adjudication calls.
-    """
+    """Simple thread-safe fixed-interval rate limiter."""
 
     def __init__(self, requests_per_minute: int):
-        self.seconds_per_request = 60.0 / requests_per_minute
+        self.interval = 60.0 / requests_per_minute
         self._last_request_time = 0.0
+        self._lock = threading.Lock()
 
     def wait_for_slot(self):
-        now = time.monotonic()
-        elapsed = now - self._last_request_time
+        with self._lock:
+            now = time.monotonic()
+            elapsed = now - self._last_request_time
 
-        if elapsed < self.seconds_per_request:
-            time.sleep(self.seconds_per_request - elapsed)
+            if elapsed < self.interval:
+                time.sleep(self.interval - elapsed)
 
-        self._last_request_time = time.monotonic()
+            self._last_request_time = time.monotonic()
 
 
 def adjudicate(
@@ -244,13 +247,22 @@ def adjudicate(
 
             rate_limiter.wait_for_slot()
 
+
+            print(
+                f"[request] {subj.label} vs {obj.label} "
+                f"at {time.strftime('%H:%M:%S')}"
+            )
+
             response = client.models.generate_content(
                 model=llm_model,
                 contents=prompt,
-                config={
-                    "response_mime_type": "application/json",
-                    "response_schema": Adjudication,
-                },
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=Adjudication,
+                    automatic_function_calling=types.AutomaticFunctionCallingConfig(
+                        disable=True
+                    ),
+                ),
             )
 
             return response.parsed
@@ -354,11 +366,13 @@ def parse_args() -> argparse.Namespace:
                          help="Max candidates to keep per subject term after ranking.")
     parser.add_argument("--composite-floor", type=float, default=0.35,
                          help="Minimum composite score for a candidate to be kept.")
+    parser.add_argument( "--skip-candidate-retrieval", action="store_true",
+                        help="Skip candidate retrieval and load existing candidate_pairs.csv from --out-dir.", )
 
     # LLM adjudication
     parser.add_argument("--llm-model", type=str, default="gemma-4-31b-it",
                          help="Gemini/GenAI model name used for adjudication.")
-    parser.add_argument("--requests-per-minute", type=int, default=25,
+    parser.add_argument("--requests-per-minute", type=int, default=28,
                          help="Rate limit for LLM adjudication requests (free tier default).")
     parser.add_argument("--max-retries", type=int, default=6,
                          help="Max retries per adjudication call on retryable errors.")
@@ -393,58 +407,80 @@ def main():
     object_terms = load_json_terms(args.object_json, args.object_source)
     print(f"Loaded {len(object_terms)} {args.object_source} terms")
 
-    print(f"Loading embedding model: {args.emb_model}")
-    emb_model = SentenceTransformer(args.emb_model)
+    # 2. Candidate retrieval
 
-    print("Computing object embeddings...")
-    obj_texts = [t.embedding_text() for t in object_terms]
-    obj_embs = emb_model.encode(obj_texts, batch_size=64, show_progress_bar=True,
+    candidate_path = args.out_dir / "candidate_pairs.csv"
+
+    if args.skip_candidate_retrieval:
+        if not candidate_path.exists():
+            raise SystemExit(
+                f"--skip-candidate-retrieval was specified, but "
+                f"{candidate_path} does not exist."
+            )
+
+        print(f"Loading existing candidates from {candidate_path}")
+        candidate_df = pd.read_csv(candidate_path)
+
+        print(f"Loaded {len(candidate_df)} candidate pairs")
+
+    else:
+        print(f"Loading embedding model: {args.emb_model}")
+        emb_model = SentenceTransformer(args.emb_model)
+
+        print("Computing object embeddings...")
+        obj_texts = [t.embedding_text() for t in object_terms]
+        obj_embs = emb_model.encode(obj_texts, batch_size=64, show_progress_bar=True,
                                  normalize_embeddings=True)
 
-    print("Computing subject embeddings...")
-    subj_texts = [t.embedding_text() for t in subject_terms]
-    subj_embs = emb_model.encode(subj_texts, batch_size=64, show_progress_bar=True,
+        print("Computing subject embeddings...")
+        subj_texts = [t.embedding_text() for t in subject_terms]
+        subj_embs = emb_model.encode(subj_texts, batch_size=64, show_progress_bar=True,
                                   normalize_embeddings=True)
 
-    def get_candidates(subj_idx: int) -> list[tuple[int, dict]]:
-        return retrieve_candidates(
-            subj_idx, subject_terms, object_terms, subj_embs, obj_embs,
-            top_k_each=args.top_k_each,
-            max_candidates=args.max_candidates,
-            composite_floor=args.composite_floor,
-        )
+        def get_candidates(subj_idx: int) -> list[tuple[int, dict]]:
+            return retrieve_candidates(
+                subj_idx, subject_terms, object_terms, subj_embs, obj_embs,
+                top_k_each=args.top_k_each,
+                max_candidates=args.max_candidates,
+                composite_floor=args.composite_floor,
+            )
 
-    # 2. Candidate retrieval
-    if not args.quiet and subject_terms:
-        print(f"\nSanity check: top candidates for {subject_terms[0].label}")
-        demo = get_candidates(0)
-        print(f"\nSubject: {subject_terms[0].label}")
-        for i, s in demo[:5]:
-            print(f"  \u2192 {object_terms[i].source}:{object_terms[i].label}  {s}")
+        if not args.quiet and subject_terms:
+            print(f"\nSanity check: top candidates for {subject_terms[0].label}")
 
-    candidate_pairs = []
-    for si, subj in enumerate(subject_terms):
-        candidates = get_candidates(si)
-        for oi, sig in candidates:
-            obj = object_terms[oi]
-            candidate_pairs.append({
-                "subject_id": subj.id,
-                "object_id": obj.id,
-                "embedding_score": sig.get("embedding", None),
-                "lexical_score": sig.get("lexical", None),
-                "composite_score": sig.get("composite", None),
-            })
+            demo = get_candidates(0)
 
-    candidate_df = pd.DataFrame(candidate_pairs)
-    candidate_df.to_csv(args.out_dir / "candidate_pairs.csv", index=False)
-    print(f"Total Candidates: {candidate_df.shape[0]}")
+            print(f"\nSubject: {subject_terms[0].label}")
 
+            for i, s in demo[:5]:
+                print(f"  \u2192 {object_terms[i].source}:{object_terms[i].label}  {s}")
+
+        candidate_pairs = []
+
+        for si, subj in enumerate(subject_terms):
+            candidates = get_candidates(si)
+
+            for oi, sig in candidates:
+                obj = object_terms[oi]
+
+                candidate_pairs.append({
+                    "subject_id": subj.id,
+                    "object_id": obj.id,
+                    "embedding_score": sig.get("embedding", None),
+                    "lexical_score": sig.get("lexical", None),
+                    "composite_score": sig.get("composite", None),
+                })
+
+        candidate_df = pd.DataFrame(candidate_pairs)
+
+        candidate_df.to_csv(args.out_dir / "candidate_pairs.csv", index=False)
+
+        print(f"Total Candidates: {candidate_df.shape[0]}")
+
+    # 3. LLM adjudication with structured JSON output
     if args.skip_adjudication:
         print("Skipping LLM adjudication (--skip-adjudication set).")
         return
-
-    # 3. LLM adjudication with structured JSON output
-    from google import genai
 
     api_key = args.google_api_key or os.environ.get("GOOGLE_API_KEY")
     if not api_key:
@@ -459,33 +495,43 @@ def main():
     cache = load_cache(cache_path)
     all_pairs = []  # list of dicts, one per (subject, candidate) pair with adjudication
 
-    for si, subj in enumerate(subject_terms):
-        candidates = get_candidates(si)
-        for oi, sig in candidates:
-            obj = object_terms[oi]
-            k = cache_key(subj, obj)
-            if k in cache:
-                adj_dict = cache[k]
-            else:
-                adj = adjudicate(
-                    subj, obj, client, args.llm_model, rate_limiter, args.max_retries
-                )
-                if adj is None:
-                    continue
-                adj_dict = adj.model_dump()
-                append_cache(cache_path, k, adj_dict, subj, obj)
-                cache[k] = adj_dict
-            all_pairs.append({
-                "subject_id": subj.id,
-                "subject_label": subj.label,
-                "object_id": obj.id,
-                "object_label": obj.label,
-                "object_source": obj.source,
-                "lexical": sig.get("lexical", 0.0),
-                "embedding": sig.get("embedding", 0.0),
-                "composite": sig["composite"],
-                **adj_dict,
-            })
+    subject_by_id = {t.id: t for t in subject_terms}
+    object_by_id = {t.id: t for t in object_terms}
+
+    for _, row in candidate_df.iterrows():
+        subj = subject_by_id[row["subject_id"]]
+        obj = object_by_id[row["object_id"]]
+
+        k = cache_key(subj, obj)
+
+        if k in cache:
+            adj_dict = cache[k]
+        else:
+            adj = adjudicate(
+                subj, obj, client, args.llm_model, rate_limiter, args.max_retries
+            )
+
+            if adj is None:
+                continue
+
+            adj_dict = adj.model_dump()
+
+            append_cache(cache_path, k, adj_dict, subj, obj)
+
+            cache[k] = adj_dict
+
+        all_pairs.append({
+            "subject_id": subj.id,
+            "subject_label": subj.label,
+            "object_id": obj.id,
+            "object_label": obj.label,
+            "object_source": obj.source,
+            "lexical": row.get("lexical_score", 0.0),
+            "embedding": row.get("embedding_score", 0.0),
+            "composite": row["composite_score"],
+            **adj_dict,
+        })
+
         if len(all_pairs) % 10 == 0:
             print(
                 f"{datetime.now():%H:%M:%S} | "
