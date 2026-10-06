@@ -42,5 +42,7 @@ pip install -e .
 ```
 
 ```bash
+sssomatic --help
+
 sssomatic --subject-json data/FAIRe_standard.json --object-json data/mixs_terms_701.json --subject-source FAIRe --object-source MIxS --out-dir ./out/MIxS-CLI --google-api-key xxxxxxx
 ```

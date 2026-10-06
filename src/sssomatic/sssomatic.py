@@ -16,31 +16,16 @@ CLI usage:
 Run `python sssomatic.py --help` for the full list of options.
 """
 
-import argparse
-import hashlib
-import json
-import os
-import random
-import re
-import time
+from __future__ import annotations   # so np.ndarray hints don't need numpy at import time
+import argparse, hashlib, json, os, random, re, time, threading
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Literal, Optional
-import threading
-
-import numpy as np
-import pandas as pd
 from pydantic import BaseModel, Field
 from rapidfuzz import fuzz
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
-from google import genai
-from google.genai import types
-from concurrent.futures import ThreadPoolExecutor
-
 from dotenv import load_dotenv
-import os
+import pandas as pd
 
 load_dotenv()
 
@@ -118,6 +103,10 @@ def retrieve_candidates(
     max_candidates: int,
     composite_floor: float,
 ) -> list[tuple[int, dict]]:
+    # imports
+    import numpy as np
+    from sklearn.metrics.pairwise import cosine_similarity
+
     subj = subject_terms[subj_idx]
     subj_emb = subj_embs[subj_idx].reshape(1, -1)
 
@@ -427,6 +416,10 @@ def main():
         print(f"Loaded {len(candidate_df)} candidate pairs")
 
     else:
+        # imports
+        from sentence_transformers import SentenceTransformer
+        import numpy as np
+
         print(f"Loading embedding model: {args.emb_model}")
         emb_model = SentenceTransformer(args.emb_model)
 
@@ -492,6 +485,10 @@ def main():
             "GOOGLE_API_KEY environment variable, or use --skip-adjudication."
         )
 
+    # imports
+    from google import genai
+    from google.genai import types
+
     client = genai.Client(
         api_key=api_key,
         http_options=types.HttpOptions(timeout=45_000),  # ms
@@ -503,6 +500,9 @@ def main():
 
     subject_by_id = {t.id: t for t in subject_terms}
     object_by_id = {t.id: t for t in object_terms}
+
+    # imports
+    from concurrent.futures import ThreadPoolExecutor
 
     cache_lock = threading.Lock()
     progress = {"n": 0}
