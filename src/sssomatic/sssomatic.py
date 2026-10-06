@@ -37,6 +37,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from google import genai
 from google.genai import types
+from concurrent.futures import ThreadPoolExecutor
 
 from dotenv import load_dotenv
 import os
@@ -372,7 +373,7 @@ def parse_args() -> argparse.Namespace:
     # LLM adjudication
     parser.add_argument("--llm-model", type=str, default="gemma-4-31b-it",
                          help="Gemini/GenAI model name used for adjudication.")
-    parser.add_argument("--requests-per-minute", type=int, default=28,
+    parser.add_argument("--requests-per-minute", type=int, default=25,
                          help="Rate limit for LLM adjudication requests (free tier default).")
     parser.add_argument("--max-retries", type=int, default=6,
                          help="Max retries per adjudication call on retryable errors.")
@@ -381,6 +382,8 @@ def parse_args() -> argparse.Namespace:
                               "environment variable.")
     parser.add_argument("--skip-adjudication", action="store_true",
                          help="Only run candidate retrieval; skip the LLM adjudication step.")
+    parser.add_argument("--workers", type=int, default=12,
+                    help="Concurrent adjudication threads.")
 
     # Misc
     parser.add_argument("--adjudicated-tsv-name", type=str,
@@ -489,7 +492,10 @@ def main():
             "GOOGLE_API_KEY environment variable, or use --skip-adjudication."
         )
 
-    client = genai.Client(api_key=api_key)
+    client = genai.Client(
+        api_key=api_key,
+        http_options=types.HttpOptions(timeout=45_000),  # ms
+    )
     rate_limiter = RateLimiter(args.requests_per_minute)
 
     cache = load_cache(cache_path)
@@ -498,39 +504,45 @@ def main():
     subject_by_id = {t.id: t for t in subject_terms}
     object_by_id = {t.id: t for t in object_terms}
 
-    for _, row in candidate_df.iterrows():
+    cache_lock = threading.Lock()
+    progress = {"n": 0}
+
+    def process_row(row):
         subj = subject_by_id[row["subject_id"]]
         obj = object_by_id[row["object_id"]]
-
         k = cache_key(subj, obj)
 
-        if k in cache:
-            adj_dict = cache[k]
-        else:
-            adj = adjudicate(
-                subj, obj, client, args.llm_model, rate_limiter, args.max_retries
-            )
+        with cache_lock:
+            adj_dict = cache.get(k)
 
+        if adj_dict is None:
+            adj = adjudicate(subj, obj, client, args.llm_model,
+                            rate_limiter, args.max_retries)
             if adj is None:
-                continue
-
+                return None
             adj_dict = adj.model_dump()
+            with cache_lock:
+                append_cache(cache_path, k, adj_dict, subj, obj)
+                cache[k] = adj_dict
 
-            append_cache(cache_path, k, adj_dict, subj, obj)
+        with cache_lock:
+            progress["n"] += 1
+            if progress["n"] % 10 == 0:
+                print(f"{datetime.now():%H:%M:%S} | {progress['n']} adjudications completed")
 
-            cache[k] = adj_dict
-
-        all_pairs.append({
-            "subject_id": subj.id,
-            "subject_label": subj.label,
-            "object_id": obj.id,
-            "object_label": obj.label,
+        return {
+            "subject_id": subj.id, "subject_label": subj.label,
+            "object_id": obj.id, "object_label": obj.label,
             "object_source": obj.source,
             "lexical": row.get("lexical_score", 0.0),
             "embedding": row.get("embedding_score", 0.0),
             "composite": row["composite_score"],
             **adj_dict,
-        })
+        }
+
+    rows = [r for _, r in candidate_df.iterrows()]
+    with ThreadPoolExecutor(max_workers=args.workers) as ex:
+        all_pairs = [r for r in ex.map(process_row, rows) if r is not None]
 
         if len(all_pairs) % 10 == 0:
             print(
