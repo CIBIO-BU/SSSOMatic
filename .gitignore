@@ -2,3 +2,6 @@ report.html
 out/MIxS/adjudication_cache_gemma-copy.jsonl
 .env
 src/sssomatic/__pycache__/*
+data/DwC_DP/table-schemas
+src/sssomatic.egg-info
+data/legacy
