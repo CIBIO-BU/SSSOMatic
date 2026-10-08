@@ -6,3 +6,4 @@ data/DwC_DP/table-schemas
 src/sssomatic.egg-info
 data/legacy
 .vscode/*
+data/GGBN/ggbn_page.html
