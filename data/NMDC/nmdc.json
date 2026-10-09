@@ -1,0 +1,334 @@
+{
+  "email": {
+    "value": "",
+    "description": "An email address for an entity such as a person. This should be the primary email address used."
+  },
+  "profile_image_url": {
+    "value": "",
+    "description": "A url that points to an image of this person or organization."
+  },
+  "orcid": {
+    "value": "orcid:0000-0002-7086-765X",
+    "description": "The ORCID of a person."
+  },
+  "ror": {
+    "value": "ror:05cwx3318",
+    "description": "The Research Organization Registry identifier of an organization."
+  },
+  "host_family_relation": {
+    "value": "offspring;Mussel25",
+    "description": "Familial relationships to other hosts in the same study; can include multiple relationships."
+  },
+  "salinity_meth": {
+    "value": "doi:10.1016/j.ecss.2011.11.024; https://doi.org/10.1016/j.ecss.2011.11.024",
+    "description": "Reference or method used in determining salinity."
+  },
+  "soil_text_measure": {
+    "value": "ite loam; 20% sand; 40% silt; 40% clay",
+    "description": "The relative proportion of different grain sizes of mineral particles in a soil, as described using a standard system; express as % sand (50 um to 2 mm), silt (2 um to 50 um), and clay (<2 um) with textural name (e.g., silty clay loam) optional."
+  },
+  "biomaterial_purity": {
+    "value": "",
+    "description": "A measure of the purity of a biomaterial sample"
+  },
+  "generates_calibration": {
+    "value": "",
+    "description": "calibration information is generated a process"
+  },
+  "uses_calibration": {
+    "value": "",
+    "description": "calibration information is used by a process"
+  },
+  "calibration_object": {
+    "value": "",
+    "description": "the file containing the calibration data object"
+  },
+  "internal_calibration": {
+    "value": "",
+    "description": "whether internal calibration was used, if false, external calibration was used"
+  },
+  "calibration_target": {
+    "value": "",
+    "description": "the target measurement of the calibration"
+  },
+  "calibration_standard": {
+    "value": "",
+    "description": "the reference standard(s) used for calibration"
+  },
+  "polarity_mode": {
+    "value": "",
+    "description": "the polarity of which ions are generated and detected"
+  },
+  "mass_spectrum_collection_modes": {
+    "value": "",
+    "description": "Indicates whether mass spectra were collected in full profile, reduced profile, or centroid mode during acquisition."
+  },
+  "eukaryotic_evaluation": {
+    "value": "",
+    "description": "Contains results from evaluating if a Metagenome-Assembled Genome is of eukaryotic lineage."
+  },
+  "ncbi_lineage_tax_ids": {
+    "value": "1-131567-2759-2611352-33682-191814-2603949",
+    "description": "Dash-delimited ordered list of NCBI taxonomy identifiers (TaxId)"
+  },
+  "ncbi_lineage": {
+    "value": "root,cellular organisms,Eukaryota,Discoba,Euglenozoa,Diplonemea,Diplonemidae",
+    "description": "Comma delimited ordered list of NCBI taxonomy names."
+  },
+  "has_failure_categorization": {
+    "value": "",
+    "description": ""
+  },
+  "ionization_source": {
+    "value": "",
+    "description": "The ionization source used to introduce processed samples into a mass spectrometer"
+  },
+  "mass_analyzers": {
+    "value": "",
+    "description": "The kind of mass analyzer(s) used during the spectra collection."
+  },
+  "resolution_categories": {
+    "value": "high; low",
+    "description": "The relative resolution at which spectra were collected."
+  },
+  "mass_spectrometry_acquisition_strategy": {
+    "value": "",
+    "description": "Mode of running a mass spectrometer method by which m/z ranges are selected and ions possibly fragment."
+  },
+  "eluent_introduction_category": {
+    "value": "liquid_chromatography; direct_infusion_syringe",
+    "description": "A high-level categorization for how the processed sample is introduced into a mass spectrometer."
+  },
+  "has_mass_spectrometry_configuration": {
+    "value": "",
+    "description": "The identifier of the associated MassSpectrometryConfiguration."
+  },
+  "has_chromatography_configuration": {
+    "value": "",
+    "description": "The identifier of the associated ChromatographyConfiguration, providing information about how a sample was introduced into the mass spectrometer."
+  },
+  "gene_function_id": {
+    "value": "KEGG.ORTHOLOGY:K00627",
+    "description": "The identifier for the gene function."
+  },
+  "count": {
+    "value": "",
+    "description": ""
+  },
+  "functional_annotation_agg": {
+    "value": "",
+    "description": "This property links a database object to a set of functional annotation aggregation (agg) results."
+  },
+  "sample_collection_year": {
+    "value": "",
+    "description": ""
+  },
+  "sample_collection_month": {
+    "value": "",
+    "description": ""
+  },
+  "library_preparation_kit": {
+    "value": "",
+    "description": ""
+  },
+  "pcr_cycles": {
+    "value": "",
+    "description": ""
+  },
+  "is_stranded": {
+    "value": "",
+    "description": "Is the (RNA) library stranded or non-stranded (unstranded)."
+  },
+  "stranded_orientation": {
+    "value": "",
+    "description": "Lists the strand orientiation for a stranded RNA library preparation."
+  },
+  "input_mass": {
+    "value": "",
+    "description": "Total mass of sample used in activity."
+  },
+  "library_type": {
+    "value": "DNA",
+    "description": ""
+  },
+  "date_created": {
+    "value": "",
+    "description": "from database class"
+  },
+  "etl_software_version": {
+    "value": "",
+    "description": "from database class"
+  },
+  "object_set": {
+    "value": "",
+    "description": "Applies to a property that links a database object to a set of objects. This is necessary in a json document to provide context for a list, and to allow for a single json object that combines multiple object types"
+  },
+  "ontology_class_set": {
+    "value": "",
+    "description": "This property links a database object to the set of ontology classes within it."
+  },
+  "biosample_set": {
+    "value": "",
+    "description": "This property links a database object to the set of samples within it."
+  },
+  "study_set": {
+    "value": "",
+    "description": "This property links a database object to the set of studies within it."
+  },
+  "field_research_site_set": {
+    "value": "",
+    "description": ""
+  },
+  "collecting_biosamples_from_site_set": {
+    "value": "",
+    "description": ""
+  },
+  "data_object_set": {
+    "value": "",
+    "description": "This property links a database object to the set of data objects within it."
+  },
+  "genome_feature_set": {
+    "value": "",
+    "description": "This property links a database object to the set of all features"
+  },
+  "functional_annotation_set": {
+    "value": "",
+    "description": "This property links a database object to the set of all functional annotations"
+  },
+  "workflow_execution_set": {
+    "value": "",
+    "description": "This property links a database object to the set of workflow executions."
+  },
+  "data_generation_set": {
+    "value": "",
+    "description": "This property links a database object to the set of data generations within it."
+  },
+  "processed_sample_set": {
+    "value": "",
+    "description": "This property links a database object to the set of processed samples within it."
+  },
+  "instrument_set": {
+    "value": "",
+    "description": "This property links a database object to the set of instruments within it."
+  },
+  "calibration_set": {
+    "value": "",
+    "description": "This property links a database object to the set of calibrations within it."
+  },
+  "configuration_set": {
+    "value": "",
+    "description": "This property links a database object to the set of configurations within it."
+  },
+  "manifest_set": {
+    "value": "",
+    "description": "This property links a database object to the set of manifests within it."
+  },
+  "storage_process_set": {
+    "value": "",
+    "description": "This property links a database object to the set of storage processes within it."
+  },
+  "material_processing_set": {
+    "value": "",
+    "description": "This property links a database object to the set of material processing within it."
+  },
+  "organism_sample_set": {
+    "value": "",
+    "description": "This property links a database object to the set of organism samples within it."
+  },
+  "organism_set": {
+    "value": "",
+    "description": "This property links a database object to the set of organisms within it."
+  },
+  "sample_collection_day": {
+    "value": "",
+    "description": ""
+  },
+  "sample_collection_hour": {
+    "value": "",
+    "description": ""
+  },
+  "sample_collection_minute": {
+    "value": "",
+    "description": ""
+  },
+  "biogas_temperature": {
+    "value": "",
+    "description": ""
+  },
+  "soil_annual_season_temp": {
+    "value": "",
+    "description": ""
+  },
+  "biogas_retention_time": {
+    "value": "",
+    "description": ""
+  },
+  "completion_date": {
+    "value": "",
+    "description": ""
+  },
+  "container_size": {
+    "value": "",
+    "description": "The volume of the container an analyte is stored in or an activity takes place in"
+  },
+  "filter_material": {
+    "value": "",
+    "description": "A porous material on which solid particles present in air or other fluid which flows through it are largely caught and retained."
+  },
+  "filter_pore_size": {
+    "value": "",
+    "description": "A quantitative or qualitative measurement of the physical dimensions of the pores in a material."
+  },
+  "conditionings": {
+    "value": "",
+    "description": "Preliminary treatment of either phase with a suitable solution of the other phase (in the absence of main extractable solute(s)) so that when the subsequent equilibration is carried out changes in the (volume) phase ratio or in the concentrations of other components are minimized."
+  },
+  "separation_method": {
+    "value": "",
+    "description": "The method that was used to separate a substance from a solution or mixture."
+  },
+  "filtration_category": {
+    "value": "",
+    "description": "The type of conditioning applied to a filter, device, etc."
+  },
+  "material_component_separation": {
+    "value": "",
+    "description": "A material processing in which components of an input material become segregated in space"
+  },
+  "value": {
+    "value": "",
+    "description": ""
+  },
+  "modifier_substance": {
+    "value": "",
+    "description": "The type of modification being done"
+  },
+  "is_pressurized": {
+    "value": "",
+    "description": "Whether or not pressure was applied to a thing or process."
+  },
+  "contained_in": {
+    "value": "test tube; falcon tube; whirlpak",
+    "description": "A type of container."
+  },
+  "input_volume": {
+    "value": "",
+    "description": "The volume of the input sample."
+  },
+  "ordered_mobile_phases": {
+    "value": "",
+    "description": "The solution(s) that moves through a chromatography column."
+  },
+  "stationary_phase": {
+    "value": "",
+    "description": "The material the stationary phase is comprised of used in chromatography."
+  },
+  "chromatographic_category": {
+    "value": "",
+    "description": "The type of chromatography used in a process."
+  },
+  "sampled_portion": {
+    "value": "",
+    "description": "The portion of the sample that is taken for downstream activity."
+  }
+}

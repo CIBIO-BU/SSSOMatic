@@ -1,0 +1,370 @@
+{
+  "absentTaxa": {
+    "value": "Parabuteo unicinctus | Geranoaetus melanoleucus; Cetoniinae | Aclopinae | Cyclocephala modesta",
+    "description": "A list (concatenated and separated) of taxa reported absent during the dwc:Event."
+  },
+  "ecoiri:absentTaxa": {
+    "value": "",
+    "description": "A taxon reported absent during the dwc:Event."
+  },
+  "abundanceCap": {
+    "value": "300; 700",
+    "description": "The reported maximum number of dwc:Organisms."
+  },
+  "areNonTargetTaxaFullyReported": {
+    "value": "true; false",
+    "description": "Every dwc:Organism that was outside of the target taxonomic scope (the combination of eco:targetTaxonomicScope and eco:excludedTaxonomicScope) and detected during the dwc:Event, and that was detectable using the given protocol (given in eco:protocolDescriptions and dwc:samplingProtocol), was reported."
+  },
+  "compilationSourceTypes": {
+    "value": "museumSpecimens; literature; expertKnowledge | localKnowledge",
+    "description": "The types of data sources contributing to the compilation reported."
+  },
+  "ecoiri:compilationSourceTypes": {
+    "value": "",
+    "description": "The type of data source contributing to the compilation reported."
+  },
+  "ecoiri:compilationTypes": {
+    "value": "",
+    "description": "A statement specifying whether data reported are derived from sampling events, ancillary data compiled from other sources, or a combination of both."
+  },
+  "compilationTypes": {
+    "value": "samplingEvents; compilationOfExistingSourcesAndSamplingEvents; compilationOfExistingSources; compilationOfExistingSourcesAndSamplingEvents | compilationOfExistingSources",
+    "description": "A statement specifying whether data reported are derived from sampling events, ancillary data compiled from other sources, or a combination of both."
+  },
+  "eventDurationUnit": {
+    "value": "minutes; hours; days; months; years",
+    "description": "The units associated with the eco:eventDurationValue."
+  },
+  "ecoiri:eventDurationUnit": {
+    "value": "",
+    "description": "The units associated with the eco:eventDurationValue."
+  },
+  "eventDurationValue": {
+    "value": "1; 30",
+    "description": "The numeric value for the duration of the dwc:Event."
+  },
+  "excludedDegreeOfEstablishmentScope": {
+    "value": "native; invasive | widespreadInvasive",
+    "description": "The degrees of establishment of the dwc:Organisms explicitly excluded from sampling during the dwc:Event."
+  },
+  "ecoiri:excludedDegreeOfEstablishmentScope": {
+    "value": "http://rs.tdwg.org/dwcem/values/e001; http://rs.tdwg.org/dwcem/values/e005",
+    "description": "The degree of establishment of the dwc:Organisms explicitly excluded from sampling during the dwc:Event."
+  },
+  "ecoiri:excludedGrowthFormScope": {
+    "value": "",
+    "description": "The growth form or habit of the dwc:Organisms explicitly excluded from sampling during the dwc:Event."
+  },
+  "excludedGrowthFormScope": {
+    "value": "tree; shrub | subShrub",
+    "description": "The growth forms or habits of the dwc:Organisms explicitly excluded from sampling during the dwc:Event."
+  },
+  "excludedHabitatScope": {
+    "value": "wetFlatwoods; swamp | estuary",
+    "description": "The habitats explicitly excluded from sampling during the dwc:Event."
+  },
+  "ecoiri:excludedHabitatScope": {
+    "value": "",
+    "description": "The habitat explicitly excluded from sampling during the dwc:Event."
+  },
+  "ecoiri:excludedLifeStageScope": {
+    "value": "",
+    "description": "The age class or life stage of the dwc:Organisms explicitly excluded from sampling during the dwc:Event."
+  },
+  "excludedLifeStageScope": {
+    "value": "seedling; nestling | fledgling",
+    "description": "The age classes or life stages of the dwc:Organisms explicitly excluded from sampling during the dwc:Event."
+  },
+  "ecoiri:excludedTaxonomicScope": {
+    "value": "",
+    "description": "The taxonomic group explicitly excluded from sampling during the dwc:Event."
+  },
+  "excludedTaxonomicScope": {
+    "value": "Aves; Quercus | Acer",
+    "description": "The taxonomic group(s) explicitly excluded from sampling during the dwc:Event."
+  },
+  "geospatialScopeAreaUnit": {
+    "value": "km²",
+    "description": "The units associated with eco:geospatialScopeAreaValue"
+  },
+  "ecoiri:geospatialScopeAreaUnit": {
+    "value": "",
+    "description": "The units associated with eco:geospatialScopeAreaValue"
+  },
+  "geospatialScopeAreaValue": {
+    "value": "25",
+    "description": "The numeric value for the total area of the geospatial scope of the dwc:Event."
+  },
+  "hasMaterialSamples": {
+    "value": "true; false",
+    "description": "Material samples were collected during the dwc:Event."
+  },
+  "hasNonTargetOrganisms": {
+    "value": "true; false",
+    "description": "One or more dwc:Organisms outside the target organismal scopes (eco:targetDegreeOfEstablishmentScope, eco:targetGrowthFormScope, and eco:targetLifeStageScope) were detected and reported for this dwc:Event."
+  },
+  "hasNonTargetTaxa": {
+    "value": "true; false",
+    "description": "One or more dwc:Organisms of taxa outside the target taxonomic scope (the combination of eco:targetTaxonomicScope and eco:excludedTaxonomicScope) were detected and reported for this dwc:Event."
+  },
+  "hasVouchers": {
+    "value": "true; false",
+    "description": "Specimen vouchers were collected during the dwc:Event."
+  },
+  "includeOrExclude": {
+    "value": "include; exclude",
+    "description": "Whether to include or exclude eco:surveyTargetValue in a scope categorized by eco:surveyTargetType."
+  },
+  "inventoryTypes": {
+    "value": "restrictedSearch; openSearch; opportunisticSearch; adventitious; compilation; openSearch | opportunisticSearch",
+    "description": "The types of search processes used to conduct the inventory."
+  },
+  "ecoiri:inventoryTypes": {
+    "value": "",
+    "description": "The type of search process used to conduct the inventory."
+  },
+  "isAbsenceReported": {
+    "value": "true; false",
+    "description": "Taxonomic absences were reported."
+  },
+  "isAbundanceCapReported": {
+    "value": "true; false",
+    "description": "A maximum number of dwc:Organisms was reported, as specified or restricted by the protocol used."
+  },
+  "isAbundanceReported": {
+    "value": "true; false",
+    "description": "The number of dwc:Organisms collected or observed was reported."
+  },
+  "isDegreeOfEstablishmentScopeFullyReported": {
+    "value": "true; false",
+    "description": "Every dwc:Organism that was included within the degree of establishment scope, and was detected during the dwc:Event, was reported."
+  },
+  "isGrowthFormScopeFullyReported": {
+    "value": "true; false",
+    "description": "Every dwc:Organism that was included within the growth form scope, and was detected during the dwc:Event, was reported."
+  },
+  "isLeastSpecificTargetCategoryQuantityInclusive": {
+    "value": "true; false",
+    "description": "The total detected quantity for a dwc:Taxon (including subcategories thereof) in a dwc:Event is given explicitly in a single record (dwc:organismQuantity value) for that dwc:Taxon."
+  },
+  "isLifeStageScopeFullyReported": {
+    "value": "true; false",
+    "description": "Every dwc:Organism that was included within the life stage scope, and was detected during the dwc:Event, was reported."
+  },
+  "isSamplingEffortReported": {
+    "value": "true; false",
+    "description": "The sampling effort associated with the dwc:Event was reported."
+  },
+  "isSurveyTargetFullyReported": {
+    "value": "true; false",
+    "description": "Whether an eco:SurveyTarget can be used to infer absence of detection because all counts of detected dwc:Occurrences matching an eco:SurveyTarget were fully reported."
+  },
+  "isTaxonomicScopeFullyReported": {
+    "value": "true; false",
+    "description": "Every dwc:Organism that was included within the taxonomic scope, and was detected during the dwc:Event, was reported."
+  },
+  "isVegetationCoverReported": {
+    "value": "true; false",
+    "description": "A vegetation cover metric was reported."
+  },
+  "materialSampleTypes": {
+    "value": "wholeOrganism; skeleton; tissue | blood | fecal | stomachContent",
+    "description": "A list (concatenated and separated) of material sample types collected during the dwc:Event."
+  },
+  "ecoiri:materialSampleTypes": {
+    "value": "",
+    "description": "A material sample type collected during the dwc:Event."
+  },
+  "nonTargetTaxa": {
+    "value": "Parabuteo unicinctus | Geranoaetus melanoleucus; Cetoniinae | Aclopinae | Cyclocephala modesta",
+    "description": "A list (concatenated and separated) of taxa reported during the dwc:Event that are outside of the target taxonomic scope (the combination of eco:targetTaxonomicScope and eco:excludedTaxonomicScope)."
+  },
+  "ecoiri:nonTargetTaxa": {
+    "value": "",
+    "description": "A taxon reported during the dwc:Event that is outside of the target taxonomic scope (the combination of ecoiri:targetTaxonomicScope and ecoiri:excludedTaxonomicScope)."
+  },
+  "protocolDescriptions": {
+    "value": "Three conventional harp traps (3.2m ht x 2.2m w) were established in flight path zones for a period of 4 hrs at dawn and dusk for a total of 10 trap nights. Traps were visited on an hourly basis during each deployment period and the trap catch recorded for species, size, weight, sex, age and maternal status.",
+    "description": "A detailed description of the methods used during the dwc:Event."
+  },
+  "ecoiri:protocolNames": {
+    "value": "",
+    "description": "Categorical descriptive name for the methods used during the dwc:Event."
+  },
+  "protocolNames": {
+    "value": "boxTrapping; floraInventory; boxTrapping | funnelTrapping",
+    "description": "Categorical descriptive names for the methods used during the dwc:Event."
+  },
+  "protocolReferences": {
+    "value": "Penguins from space: faecal stains reveal the location of emperor penguin colonies, https://doi.org/10.1111/j.1466-8238.2009.00467.x",
+    "description": "The references to the methods used during the dwc:Event."
+  },
+  "reportedExtremeConditions": {
+    "value": "flooding during week 3 of surveys; rockslide at site 2",
+    "description": "A description of any extreme weather or environmental conditions that may have affected the dwc:Event."
+  },
+  "reportedWeather": {
+    "value": "{\"minimumTemperatureInDegreesFahrenheit\": 18, \"maximumTemperatureInDegreesFahrenheit\": 32}",
+    "description": "A list of weather or climatic conditions present during the dwc:Event."
+  },
+  "samplingEffortProtocol": {
+    "value": "40 box traps deployed at even spacings along 4 parallel 100m transects placed 50m apart and visited at 6 hourly intervals over a 48 hour period; 2 people occupying a bird hide for a period of 8 hours and undertaking a 30 minute count of species within the 150 degree field of view every 2 hours; A single baited camera trap station with motion sensor trigger, deployed for a period of 10 days and configured for detecting large fauna moving through a known traffic way",
+    "description": "A description of or reference (publication or URL) to the methods used to determine the sampling effort."
+  },
+  "ecoiri:samplingEffortProtocol": {
+    "value": "",
+    "description": "A method or protocol used to determine the sampling effort, denoted by an IRI."
+  },
+  "samplingEffortUnit": {
+    "value": "trapHours; personHours; trapDays",
+    "description": "The units associated with the eco:samplingEffortValue."
+  },
+  "ecoiri:samplingEffortUnit": {
+    "value": "",
+    "description": "The units associated with the eco:samplingEffortValue."
+  },
+  "samplingEffortValue": {
+    "value": "1900; 40; 5.5",
+    "description": "The numeric value for the sampling effort expended during the dwc:Event."
+  },
+  "samplingPerformedBy": {
+    "value": "North American Butterfly Association; KK Wall",
+    "description": "A person, group, or organization responsible for recording the dwc:Event."
+  },
+  "ecoiri:samplingPerformedBy": {
+    "value": "",
+    "description": "A person, group, or organization responsible for recording the dwc:Event."
+  },
+  "siteCount": {
+    "value": "1; 15",
+    "description": "Total number of individual sites surveyed during the dwc:Event."
+  },
+  "siteNestingDescription": {
+    "value": "5 sampling sites of 3-5 plots each",
+    "description": "Textual description of the hierarchical sampling design."
+  },
+  "Survey": {
+    "value": "a botanical survey of a protected area to assess native and invasive plant species; a wetland vegetation mapping; a camera trap deployment in a rainforest to monitor large mammals; a frog call survey in wetlands across breeding seasons; a coverboard survey for reptiles in forested environments; a pollinator survey in an agricultural landscape; a macroinvertebrate sampling in a freshwater stream to assess water quality; a habitat- or ecosystem-level survey (e.g., coral reef health assessment, forest biodiversity assessment); an environmental impact assessment (e.g., pre-construction biological baseline survey for a wind farm project)",
+    "description": "A biotic survey or inventory."
+  },
+  "surveyID": {
+    "value": "",
+    "description": "An identifier for an eco:Survey."
+  },
+  "SurveyTarget": {
+    "value": "all bird species; all bird species except Larus gulls, fulmars and kittiwakes; reproductive female Ctenomys sociabilis (only); Oncorhynchus mykiss and Oncorhynchus clarkii (only) , all total lengths except < 12 inches",
+    "description": "One or more scopes that describe a target for dwc:Occurrences in an eco:Survey."
+  },
+  "surveyTargetID": {
+    "value": "",
+    "description": "An identifier for an eco:SurveyTarget."
+  },
+  "surveyTargetType": {
+    "value": "taxon; habitat; establishmentMeans; growthForm; sex; lifeStage; minimum length",
+    "description": "A category that best matches the nature of a scope in an eco:SurveyTarget."
+  },
+  "ecoiri:surveyTargetType": {
+    "value": "",
+    "description": "A category that best matches the nature of a scope in an eco:SurveyTarget."
+  },
+  "ecoiri:surveyTargetUnit": {
+    "value": "",
+    "description": "Unit associated with a value in eco:surveyTargetValue."
+  },
+  "surveyTargetUnit": {
+    "value": "m; g; years",
+    "description": "Unit associated with a value in eco:surveyTargetValue."
+  },
+  "surveyTargetValue": {
+    "value": "Aves; oak savannah; native; tree; female; adult; height; weight",
+    "description": "A value to include or exclude in a scope categorized by eco:surveyTargetType."
+  },
+  "ecoiri:surveyTargetValue": {
+    "value": "",
+    "description": "A value to include or exclude in a scope categorized by eco:surveyTargetType."
+  },
+  "targetDegreeOfEstablishmentScope": {
+    "value": "native; invasive | widespreadInvasive",
+    "description": "The degrees of establishment of the dwc:Organisms targeted for sampling during the dwc:Event."
+  },
+  "ecoiri:targetDegreeOfEstablishmentScope": {
+    "value": "http://rs.tdwg.org/dwcem/values/e001; http://rs.tdwg.org/dwcem/values/e005",
+    "description": "The degree of establishment of the dwc:Organisms targeted for sampling during the dwc:Event."
+  },
+  "ecoiri:targetGrowthFormScope": {
+    "value": "",
+    "description": "The growth form or habit of the dwc:Organisms targeted for sampling during the dwc:Event."
+  },
+  "targetGrowthFormScope": {
+    "value": "tree; shrub | subShrub",
+    "description": "The growth forms or habits of the dwc:Organisms targeted for sampling during the dwc:Event."
+  },
+  "ecoiri:targetHabitatScope": {
+    "value": "",
+    "description": "The habitat targeted for sampling during the dwc:Event."
+  },
+  "targetHabitatScope": {
+    "value": "dunes; pineForest; riparian; scrub | grassland",
+    "description": "The habitats targeted for sampling during the dwc:Event."
+  },
+  "ecoiri:targetLifeStageScope": {
+    "value": "",
+    "description": "The age class or life stage of the dwc:Organisms targeted for sampling during the dwc:Event."
+  },
+  "targetLifeStageScope": {
+    "value": "larva; adult | juvenile",
+    "description": "The age classes or life stages of the dwc:Organisms targeted for sampling during the dwc:Event."
+  },
+  "targetTaxonomicScope": {
+    "value": "Aves; Aves | Mammalia; Procellariformes",
+    "description": "The taxonomic group(s) targeted for sampling during the dwc:Event."
+  },
+  "ecoiri:targetTaxonomicScope": {
+    "value": "",
+    "description": "The taxonomic group targeted for sampling during the dwc:Event."
+  },
+  "ecoiri:taxonCompletenessProtocols": {
+    "value": "",
+    "description": "A method or protocol used to determine ecoiri:taxonCompletenessReported, denoted by an IRI."
+  },
+  "taxonCompletenessProtocols": {
+    "value": "census | based on sampling effort; based on species accumulation curves",
+    "description": "A description of or reference (publication, URL) to the methods used to determine eco:taxonCompletenessReported."
+  },
+  "taxonCompletenessReported": {
+    "value": "notReported; reportedComplete; reportedIncomplete",
+    "description": "Statement about whether the taxonomic completeness of the dwc:Event was assessed."
+  },
+  "ecoiri:taxonCompletenessReported": {
+    "value": "http://rs.tdwg.org/ecotcr/values/tcr01; http://rs.tdwg.org/ecotcr/values/tcr01",
+    "description": "Statement about whether the taxonomic completeness of the dwc:Event was assessed."
+  },
+  "totalAreaSampledUnit": {
+    "value": "km²",
+    "description": "The units associated with eco:totalAreaSampledValue"
+  },
+  "ecoiri:totalAreaSampledUnit": {
+    "value": "",
+    "description": "The units associated with eco:totalAreaSampledValue"
+  },
+  "totalAreaSampledValue": {
+    "value": "0.8",
+    "description": "The numeric value for the total area surveyed during the dwc:Event."
+  },
+  "verbatimSiteDescriptions": {
+    "value": "Wet flatwoods | Wet depression surrounded by mesic longleaf pine flatwoods | Ground cover of thick Andropogon spp., Sporobolus floridanus, Vaccinium spp, Rhynchospora spp., Centella erecta, Panicum rigidulum.",
+    "description": "Original textual description of the site(s)."
+  },
+  "verbatimSiteNames": {
+    "value": "East Coastal Fringe | St. Marks Wildlife Management Area; S1 | S2 | C1 | C2 | R14 | R22 | W1",
+    "description": "A list (concatenated and separated) of original site names."
+  },
+  "verbatimTargetScope": {
+    "value": "small mammals; freshwater macroinvertebrates; dead animals , ground-living insects",
+    "description": "The verbatim original description of the dwc:Event scope."
+  },
+  "voucherInstitutions": {
+    "value": "FMNH; AMNH | MVZ; Nairobi National Museum",
+    "description": "A list (concatenated and separated) of the names or acronyms of the institutions where vouchers collected during the dwc:Event were deposited."
+  }
+}
