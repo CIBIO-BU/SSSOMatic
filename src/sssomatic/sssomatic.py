@@ -494,7 +494,7 @@ def main():
 
     client = genai.Client(
         api_key=api_key,
-        http_options=types.HttpOptions(timeout=45_000),  # ms
+        http_options=types.HttpOptions(timeout=120_000),  # ms
     )
     rate_limiter = RateLimiter(args.requests_per_minute)
 
